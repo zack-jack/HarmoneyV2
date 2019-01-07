@@ -2,6 +2,10 @@
   "name": "harmoneyv2",
   "version": "2.0.0",
   "description": "Personal finance app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zackjacksongit/harmoneyv2"
+  },
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
@@ -13,6 +17,13 @@
   "author": "Zack Jackson",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.4"
+    "bcryptjs": "^2.4.3",
+    "concurrently": "^4.1.0",
+    "connect-flash": "^0.1.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.2",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
   }
 }
