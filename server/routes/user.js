@@ -8,8 +8,7 @@ const router = express.Router();
 const User = require('../models/User');
 
 // Handle register
-router.post('/register', (req, res) => {
-  console.log(req.body);
+router.post('/user/register', (req, res) => {
   const { firstName, lastName, email, password, passwordConfirm } = req.body;
   let errors = [];
 
@@ -74,11 +73,11 @@ router.post('/register', (req, res) => {
             newUser
               .save()
               .then(user => {
+                res.json(user);
                 req.flash(
                   'success_msg',
                   'Successfully registered. Please log in.'
                 );
-                res.redirect('/user/login');
               })
               .catch(err => console.log(err));
           });
@@ -89,16 +88,33 @@ router.post('/register', (req, res) => {
 });
 
 // Login handler
-router.post('/login', (req, res, next) => {
-  passport.authenticate('local', {
-    successRedirect: '/dashboard',
-    failureRedirect: '/user/login',
-    failureFlash: true
-  })(req, res, next);
+router.post('/user/login', (req, res, next) => {
+  passport.authenticate(
+    'local',
+    {
+      successRedirect: '/',
+      failureRedirect: '/user/login',
+      failureFlash: true
+    },
+    (err, user, info) => {
+      if (err) {
+        res.status(404).json(err);
+      }
+
+      if (user) {
+        res.status(200).json({
+          isAuth: true,
+          user: user
+        });
+      } else {
+        res.status(401).json(info);
+      }
+    }
+  )(req, res, next);
 });
 
 // Logout handler
-router.post('/logout', (req, res) => {
+router.post('/user/logout', (req, res) => {
   req.logout();
   req.flash('success_msg', 'Successfully logged out');
   res.redirect('/user/login');

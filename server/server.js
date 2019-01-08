@@ -1,6 +1,6 @@
 const express = require('express');
-const path = require('path');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
@@ -23,7 +23,8 @@ mongoose
   .catch(err => console.log(err));
 
 // BodyParser
-app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Express session
 app.use(
@@ -51,7 +52,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use('/', require('./routes/index'));
-app.use('/user', require('./routes/user'));
+app.use('/api', require('./routes/user'));
 
 const port = process.env.PORT || 5000;
 
