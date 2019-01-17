@@ -1,18 +1,42 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import reduxThunk from 'redux-thunk';
 
-// CSS browser styles reset
-import 'normalize.css';
+import rootReducer from './reducers';
 
-import store from './store/configStore';
-import App from './App';
+import App from './components/App';
+import Welcome from './components/Welcome';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Logout from './components/auth/Logout';
+import Dashboard from './components/Dashboard';
+
+// Setup redux store
+// Check localStorage for auth token
+const INITIAL_STATE = {
+  auth: { authenticated: localStorage.getItem('token') }
+};
+
+// Redux store
+const store = createStore(
+  rootReducer,
+  INITIAL_STATE,
+  applyMiddleware(reduxThunk)
+);
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <App />
+      <App>
+        <Route path="/" exact component={Welcome} />
+        <Route path="/user/register" render={() => <Register />} />
+        <Route path="/user/login" render={() => <Login />} />
+        <Route path="/user/logout" render={() => <Logout />} />
+        <Route path="/dashboard" render={() => <Dashboard />} />
+      </App>
     </Router>
   </Provider>,
   document.getElementById('root')

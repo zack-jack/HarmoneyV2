@@ -1,46 +1,64 @@
+const passport = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
-// Load User Model
 const User = require('../models/User');
+const keys = require('./keys');
 
-module.exports = passport => {
-  passport.use(
-    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
-      // Lookup User
-      User.findOne({ email: email })
-        .then(user => {
-          if (!user) {
-            return done(null, false, { message: 'Email is not registered' });
-          }
+// Create local strategy
+const localOptions = { usernameField: 'email' };
+const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
+  if (!email || !password) {
+    return done(null, false, { message: 'Please fill in all required fields' });
+  } else {
+    // Check DB for user that matches provided email
+    User.findOne({ email: email }, (err, user) => {
+      if (err) return done(err);
 
-          // Match password
-          bcrypt.compare(password, user.password, (err, isMatch) => {
-            if (err) {
-              throw err;
-            }
+      // If no user found, return false
+      if (!user) {
+        return done(null, false, { message: 'Email not found' });
+      }
 
-            if (isMatch) {
-              return done(null, user);
-            } else {
-              return done(null, false, { message: 'Password incorrect' });
-            }
-          });
-        })
-        .catch(err => console.log(err));
-    })
-  );
+      // Compare password provided with matched user's password
+      user.comparePassword(password, (err, isMatch) => {
+        if (err) return done(err);
 
-  // Establish Session
-  passport.serializeUser((user, done) => {
-    done(null, user.id);
-  });
+        // Password does not match, return false
+        if (!isMatch) {
+          return done(null, false, { message: 'Password incorrect' });
+        }
 
-  // End Session
-  passport.deserializeUser((id, done) => {
-    User.findById(id, (err, user) => {
-      done(err, user);
+        // Password matches, return user
+        return done(null, user);
+      });
     });
-  });
+  }
+});
+
+// Set up options for JWT strategy
+const jwtOptions = {
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  secretOrKey: keys.tokenSecret
 };
+
+// Create JWT strategy for login
+const jwtLogin = new JwtStrategy(jwtOptions, (payload, done) => {
+  // Check if the payload user id exists in DB
+  User.findById(payload.sub, (err, user) => {
+    if (err) return done(err, false);
+
+    // If user exists, call done with user obj
+    // Otherwise, call done without user obj
+    if (user) {
+      done(null, user);
+    } else {
+      done(null, false);
+    }
+  });
+});
+
+// Tell passport to use strategies
+passport.use(jwtLogin);
+passport.use(localLogin);

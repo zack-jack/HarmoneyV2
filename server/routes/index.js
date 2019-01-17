@@ -1,14 +1,19 @@
 const express = require('express');
-const path = require('path');
+const passport = require('passport');
 
 const router = express.Router();
 
-const { isAuth } = require('../config/auth');
-const clientPath = '../../client';
+// Token authentication strategy
+const requireAuth = passport.authenticate('jwt', { session: false });
 
-// Welcome page
+// Welcome
 router.get('/', (req, res) => {
-  res.sendFile(path.resolve(__dirname, clientPath, 'build', 'index.html'));
+  res.send('Welcome to the home page!');
+});
+
+// Dashboard
+router.get('/dashboard', requireAuth, (req, res) => {
+  res.send('GET request to dashboard route');
 });
 
 module.exports = router;

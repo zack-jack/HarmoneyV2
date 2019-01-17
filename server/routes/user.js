@@ -1,123 +1,45 @@
 const express = require('express');
-const bcrypt = require('bcryptjs');
 const passport = require('passport');
+
+const auth = require('../controllers/auth');
+const passportConfig = require('../config/passport');
 
 const router = express.Router();
 
-// User Model
-const User = require('../models/User');
-
-// Handle register
-router.post('/user/register', (req, res) => {
-  const { firstName, lastName, email, password, passwordConfirm } = req.body;
-  let errors = [];
-
-  // Check required fields completed
-  if (!firstName || !lastName || !email || !password || !passwordConfirm) {
-    errors.push({ msg: 'Please fill in all required fields' });
-  }
-
-  // Check password matches password2
-  if (password !== passwordConfirm) {
-    errors.push({ msg: 'Passwords do not match' });
-  }
-
-  // Check password length is greater than 8 chars
-  if (password.length < 8) {
-    errors.push({ msg: 'Password should be at least 8 characters' });
-  }
-
-  if (errors.length > 0) {
-    res.status(400).json({
-      errors,
-      firstName,
-      lastName,
-      email,
-      password,
-      passwordConfirm
-    });
-  } else {
-    // Validation passed
-    User.findOne({ email }).then(user => {
-      if (user) {
-        // User already exists
-        errors.push({ msg: 'Email is already registered' });
-        res.status(400).json({
-          errors,
-          firstName,
-          lastName,
-          email,
-          password,
-          passwordConfirm
-        });
-      } else {
-        // Create new user instance
-        const newUser = new User({
-          firstName,
-          lastName,
-          email,
-          password
-        });
-
-        // Hash Password
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) {
-              throw err;
-            }
-
-            // Set password to hash value
-            newUser.password = hash;
-
-            // Save user to db
-            newUser
-              .save()
-              .then(user => {
-                res.json(user);
-                req.flash(
-                  'success_msg',
-                  'Successfully registered. Please log in.'
-                );
-              })
-              .catch(err => console.log(err));
-          });
-        });
-      }
-    });
-  }
-});
-
-// Login handler
-router.post('/user/login', (req, res, next) => {
-  passport.authenticate(
-    'local',
-    {
-      successRedirect: '/',
-      failureRedirect: '/user/login',
-      failureFlash: true
-    },
-    (err, user, info) => {
-      if (err) {
-        res.status(404).json(err);
-      }
-
-      if (user) {
-        res.status(200).json({
-          isAuth: true,
-          user: user
-        });
-      } else {
-        res.status(401).json(info);
-      }
+// Email + Password provided for login
+// Middleware authenticates user before they can access the route
+const authenticate = (req, res, next) => {
+  passport.authenticate('local', { session: false }, (err, user, info) => {
+    if (err) {
+      return next(err);
     }
-  )(req, res, next);
-});
 
-// Logout handler
-router.post('/user/logout', (req, res) => {
-  req.logout();
-  req.flash('success_msg', 'Successfully logged out');
-  res.redirect('/user/login');
-});
+    if (info) {
+      // Customize default message for empty form fields
+      if (info.message === 'Missing credentials') {
+        info.message = 'Please fill in all required fields';
+      }
+
+      // Send error message
+      return res
+        .status(200)
+        .send(info)
+        .end();
+    }
+
+    if (user) {
+      req.user = user;
+      next();
+    } else {
+      end();
+    }
+  })(req, res, next);
+};
+
+// Register new user
+router.post('/register', auth.register);
+
+// Login user
+router.post('/login', authenticate, auth.login);
 
 module.exports = router;

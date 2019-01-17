@@ -1,20 +1,23 @@
-import { SET_USER_AUTH } from '../actions/types';
+import { AUTH_USER, AUTH_ERROR } from '../actions/types';
 
-const initialState = {
-  isAuth: false,
-  user: {}
+const INITIAL_STATE = {
+  authenticated: '',
+  errorMessages: []
 };
 
-export default function(state = initialState, action) {
-  console.log('authReducer action: ', action);
+export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case SET_USER_AUTH:
+    case AUTH_USER:
       return {
         ...state,
-        isAuth: action.payload.isAuth,
-        user: action.payload.user
+        authenticated: action.payload
+      };
+    case AUTH_ERROR:
+      return {
+        ...state,
+        errorMessages: action.payload
       };
     default:
       return state;
   }
-}
+};

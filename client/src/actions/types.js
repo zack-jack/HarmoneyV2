@@ -1,4 +1,2 @@
-export const SET_USER_AUTH = 'SET_USER_AUTH';
-
-export const GET_ERRORS = 'GET_ERRORS';
-export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const AUTH_USER = 'auth_user';
+export const AUTH_ERROR = 'auth_error';

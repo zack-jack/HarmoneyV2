@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 
-export default class Dashboard extends Component {
+import requireAuth from './auth/requireAuth';
+
+class Dashboard extends Component {
   render() {
     return (
       <div>
@@ -9,3 +11,5 @@ export default class Dashboard extends Component {
     );
   }
 }
+
+export default requireAuth(Dashboard);
