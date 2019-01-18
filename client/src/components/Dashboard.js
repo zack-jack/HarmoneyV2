@@ -44,7 +44,6 @@ class Dashboard extends Component {
       <div>
         <div>
           <button>+ Create New Budget</button>
-          <button>View Previous Budgets</button>
           <button>Save</button>
           <button>Delete</button>
         </div>
