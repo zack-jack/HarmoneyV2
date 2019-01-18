@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-import * as actions from '../../actions';
+import { register } from '../../actions/auth';
 
 class Register extends Component {
   onSubmit = formProps => {
@@ -73,7 +73,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    actions
+    { register }
   ),
   reduxForm({ form: 'register' }),
   withRouter

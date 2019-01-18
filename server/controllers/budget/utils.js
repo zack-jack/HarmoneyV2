@@ -3,20 +3,20 @@ const jwt = require('jsonwebtoken');
 const keys = require('../../config/keys');
 
 // Decode the auth token to get the user id
-exports.getUserIdFromToken = req => {
-  if (req.headers && req.headers.authorization) {
+exports.getUserIdFromToken = (headers, token) => {
+  if (headers && token) {
     let decoded;
-    const auth = req.headers.authorization;
+    const auth = token;
 
     try {
       decoded = jwt.verify(auth, keys.tokenSecret);
+      const userId = decoded.sub;
+
+      return userId;
     } catch (err) {
       console.log(err);
-      return res.status(401).send('Unauthorized');
+      return err;
     }
-
-    const userId = decoded.sub;
-    return userId;
   }
 };
 
@@ -49,9 +49,6 @@ exports.setValidation = errors => {
 
   if (errors.length > 0) {
     validData = false;
-    res.status(422).json({
-      errors
-    });
   } else {
     validData = true;
   }
@@ -62,8 +59,8 @@ exports.setValidation = errors => {
 // Ensure that user exists and is auth
 exports.checkUserIdExists = userId => {
   if (!userId || userId === undefined) {
-    return res
-      .status(401)
-      .json({ error: 'Invalid credentials. Please log in.' });
+    return false;
+  } else {
+    return true;
   }
 };

@@ -8,7 +8,11 @@ const checkUserIdExists = require('./utils').checkUserIdExists;
 exports.createNewBudget = (req, res, next) => {
   let errors, validData;
   const { name, income, expenses } = req.body;
-  const userId = getUserIdFromToken(req);
+  const headers = req.headers;
+  const token = req.headers.authorization;
+
+  // Get user id from request header
+  const userId = getUserIdFromToken(headers, token);
 
   // Validate data and get errors
   errors = getDataValidationErrors(userId, name, income, expenses);
@@ -16,8 +20,11 @@ exports.createNewBudget = (req, res, next) => {
   // Check if errors, then assign validData
   validData = setValidation(errors);
 
-  // If validData, proceed with creating record
-  if (validData) {
+  if (!validData) {
+    res.status(422).json({
+      errors
+    });
+  } else {
     // Create new budget instance
     const newBudget = new Budget({
       owner: userId,
@@ -38,30 +45,38 @@ exports.createNewBudget = (req, res, next) => {
 };
 
 // Fetch all budgets for current user route handling
-exports.getAll = (req, res, next) => {
-  const userId = getUserIdFromToken(req);
+exports.getBudgets = (req, res, next) => {
+  const headers = req.headers;
+  const token = req.headers.authorization;
+
+  // Get user id from request header
+  const userId = getUserIdFromToken(headers, token);
 
   // Ensure user exists and is auth
-  checkUserIdExists(userId);
+  const userExists = checkUserIdExists(userId);
 
-  // Send docs that match user id
-  Budget.find({ owner: userId })
-    .then(docs => {
-      if (docs) {
-        res.status(200).json(docs);
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  if (!userExists) {
+    res.status(401).json({ error: 'Invalid credentials. Please log in.' });
+  } else {
+    // Send docs that match user id
+    Budget.find({ owner: userId })
+      .then(docs => {
+        if (docs) {
+          res.status(200).json(docs);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 };
 
-exports.getById = (req, res, next) => {
+exports.getBudgetById = (req, res, next) => {
   const budgetId = req.params.id;
   const userId = getUserIdFromToken(req);
 
   // Ensure user exists and is auth
-  checkUserIdExists(userId);
+  checkUserIdExists(req, res);
 
   // If id exists, send this doc for this user
   if (budgetId) {
@@ -79,7 +94,7 @@ exports.getById = (req, res, next) => {
   }
 };
 
-exports.saveById = (req, res, next) => {
+exports.saveBudgetById = (req, res, next) => {
   let errors = [];
   let validData;
   const { name, income, expenses } = req.body;
@@ -114,7 +129,7 @@ exports.saveById = (req, res, next) => {
   }
 };
 
-exports.deleteById = (req, res, next) => {
+exports.deleteBudgetById = (req, res, next) => {
   const budgetId = req.params.id;
   const userId = getUserIdFromToken(req);
 

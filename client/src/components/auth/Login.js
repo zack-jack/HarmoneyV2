@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 
-import * as actions from '../../actions';
+import { login } from '../../actions/auth';
 
 class Login extends Component {
   onSubmit = formProps => {
@@ -14,7 +14,6 @@ class Login extends Component {
   };
 
   renderErrors = errors => {
-    console.log('login errors: ', errors);
     if (errors) {
       return errors.map((error, i) => {
         return <p key={i}>{error.message}</p>;
@@ -64,7 +63,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    actions
+    { login }
   ),
   reduxForm({ form: 'login' }),
   withRouter

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AUTH_USER, AUTH_ERROR } from './types';
+import { AUTH_USER, AUTH_ERROR, GET_BUDGETS } from './types';
 
 export const register = (formProps, callback) => async dispatch => {
   try {
@@ -56,8 +56,17 @@ export const login = (formProps, callback) => async dispatch => {
 export const logout = () => {
   localStorage.removeItem('token');
 
-  return {
-    type: AUTH_USER,
-    payload: ''
+  return dispatch => {
+    // Clear auth token state
+    dispatch({
+      type: AUTH_USER,
+      payload: ''
+    });
+
+    // Clear budgets
+    dispatch({
+      type: GET_BUDGETS,
+      payload: []
+    });
   };
 };

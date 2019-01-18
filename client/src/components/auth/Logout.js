@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import * as actions from '../../actions';
+import { logout } from '../../actions/auth';
 import requireAuth from './requireAuth';
 
 class Logout extends Component {
@@ -23,7 +23,7 @@ class Logout extends Component {
 export default compose(
   connect(
     null,
-    actions
+    { logout }
   ),
   requireAuth
 )(Logout);
