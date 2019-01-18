@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import { getBudgets } from '../actions/budget';
 import requireAuth from './auth/requireAuth';
@@ -27,7 +28,11 @@ class Dashboard extends Component {
       const budgets = budget.budgets;
 
       return budgets.map(budget => {
-        return <li key={budget._id}>{budget.name}</li>;
+        return (
+          <Link to="/">
+            <li key={budget._id}>{budget.name}</li>
+          </Link>
+        );
       });
     } else {
       return (
