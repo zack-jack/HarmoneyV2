@@ -1,12 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
-import { composeWithDevTools } from 'redux-devtools-extension';
-
-import rootReducer from './reducers';
 
 import App from './components/App';
 import Welcome from './components/Welcome';
@@ -17,38 +13,25 @@ import Dashboard from './components/Dashboard';
 import Budget from './components/budget/Budget';
 import NotFound from './components/common/NotFound';
 
-// Setup redux store
-// Check localStorage for auth token
-const INITIAL_STATE = {
-  auth: { authenticated: localStorage.getItem('token') },
-  budget: {
-    budgets: [],
-    selected: {}
-  }
-};
-
-// Redux store
-const store = createStore(
-  rootReducer,
-  INITIAL_STATE,
-  composeWithDevTools(applyMiddleware(thunk))
-);
+import { store, persistor } from './store/configureStore';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
-      <App>
-        <Switch>
-          <Route path="/" exact component={Welcome} />
-          <Route path="/user/register" render={() => <Register />} />
-          <Route path="/user/login" render={() => <Login />} />
-          <Route path="/user/logout" render={() => <Logout />} />
-          <Route path="/dashboard" render={() => <Dashboard />} />
-          <Route path="/budget/:id" render={() => <Budget />} />
-          <Route component={NotFound} />
-        </Switch>
-      </App>
-    </Router>
+    <PersistGate loading={null} persistor={persistor}>
+      <Router>
+        <App>
+          <Switch>
+            <Route path="/" exact component={Welcome} />
+            <Route path="/user/register" render={() => <Register />} />
+            <Route path="/user/login" render={() => <Login />} />
+            <Route path="/user/logout" render={() => <Logout />} />
+            <Route path="/dashboard" render={() => <Dashboard />} />
+            <Route path="/budget/:id" render={() => <Budget />} />
+            <Route component={NotFound} />
+          </Switch>
+        </App>
+      </Router>
+    </PersistGate>
   </Provider>,
   document.getElementById('root')
 );
