@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
-import { getBudgets } from '../actions/budget';
+import { getBudgets, setSelectedBudget } from '../actions/budget';
 import requireAuth from './auth/requireAuth';
 
 class Dashboard extends Component {
   state = {
-    budget: {}
+    budget: {
+      budgets: []
+    }
   };
 
   componentDidMount() {
@@ -23,34 +24,47 @@ class Dashboard extends Component {
     });
   }
 
-  renderBudgets(budget) {
+  setSelectedBudget = e => {
+    const eventId = e.target.id;
+    const selectedBudgetId = this.props.setSelectedBudget(eventId);
+
+    this.setState({
+      budget: {
+        selected: {
+          _id: selectedBudgetId
+        }
+      }
+    });
+
+    this.props.history.push(`../budget/${eventId}`);
+  };
+
+  renderBudgets = budget => {
     if (budget.budgets) {
       const budgets = budget.budgets;
 
       return budgets.map(budget => {
         return (
-          <Link to="/">
-            <li key={budget._id}>{budget.name}</li>
-          </Link>
+          <button key={budget._id} onClick={this.setSelectedBudget}>
+            <li id={budget._id}>{budget.name}</li>
+          </button>
         );
       });
     } else {
       return (
         <div>
           <p>No existing budgets found.</p>
-          <p>Click "Create New Budget" to start.</p>
+          <p>Click "Create New" to start.</p>
         </div>
       );
     }
-  }
+  };
 
   render() {
     return (
       <div>
         <div>
-          <button>+ Create New Budget</button>
-          <button>Save</button>
-          <button>Delete</button>
+          <button>+ Create New</button>
         </div>
 
         <div>
@@ -63,14 +77,19 @@ class Dashboard extends Component {
 
 const mapStateToProps = state => {
   return {
-    budget: state.budget
+    budget: {
+      budgets: state.budget.budgets,
+      selected: {
+        _id: state.budget.selected
+      }
+    }
   };
 };
 
 export default compose(
   connect(
     mapStateToProps,
-    { getBudgets }
+    { getBudgets, setSelectedBudget }
   ),
   requireAuth
 )(Dashboard);

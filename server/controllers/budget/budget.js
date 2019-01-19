@@ -62,7 +62,14 @@ exports.getBudgets = (req, res, next) => {
     Budget.find({ owner: userId })
       .then(docs => {
         if (docs) {
-          res.status(200).json(docs);
+          const budgets = docs.map(budget => {
+            return {
+              _id: budget._id,
+              name: budget.name
+            };
+          });
+
+          res.status(200).json(budgets);
         }
       })
       .catch(err => {
@@ -73,24 +80,32 @@ exports.getBudgets = (req, res, next) => {
 
 exports.getBudgetById = (req, res, next) => {
   const budgetId = req.params.id;
-  const userId = getUserIdFromToken(req);
+  const headers = req.headers;
+  const token = req.headers.authorization;
+
+  // Get user id from request header
+  const userId = getUserIdFromToken(headers, token);
 
   // Ensure user exists and is auth
-  checkUserIdExists(req, res);
+  const userExists = checkUserIdExists(userId);
 
-  // If id exists, send this doc for this user
-  if (budgetId) {
-    Budget.findOne({ owner: userId, _id: budgetId })
-      .then(doc => {
-        if (doc) {
-          res.status(200).json(doc);
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+  if (!userExists) {
+    res.status(401).json({ error: 'Invalid credentials. Please log in.' });
   } else {
-    return res.status(404).json({ error: 'Requested budget was not found.' });
+    // Query database for budgetId that belongs to userId
+    if (budgetId) {
+      Budget.findOne({ owner: userId, _id: budgetId })
+        .then(doc => {
+          if (doc) {
+            res.status(200).json(doc);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      return res.status(404).json({ error: 'Requested budget was not found.' });
+    }
   }
 };
 

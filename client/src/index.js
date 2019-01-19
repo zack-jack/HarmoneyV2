@@ -14,6 +14,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
 import Dashboard from './components/Dashboard';
+import Budget from './components/budget/Budget';
 import NotFound from './components/common/NotFound';
 
 // Setup redux store
@@ -21,7 +22,8 @@ import NotFound from './components/common/NotFound';
 const INITIAL_STATE = {
   auth: { authenticated: localStorage.getItem('token') },
   budget: {
-    budgets: []
+    budgets: [],
+    selected: {}
   }
 };
 
@@ -42,6 +44,7 @@ ReactDOM.render(
           <Route path="/user/login" render={() => <Login />} />
           <Route path="/user/logout" render={() => <Logout />} />
           <Route path="/dashboard" render={() => <Dashboard />} />
+          <Route path="/budget/:id" render={() => <Budget />} />
           <Route component={NotFound} />
         </Switch>
       </App>
