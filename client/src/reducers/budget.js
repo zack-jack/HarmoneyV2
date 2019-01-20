@@ -1,15 +1,15 @@
 import {
   GET_BUDGETS,
+  ADD_BUDGET,
   SET_SELECTED_BUDGET,
   GET_BUDGET_BY_ID,
-  BUDGET_ERROR
+  BUDGET_ERROR,
+  CLEAR_BUDGETS_DATA
 } from '../actions/types';
 
 const INITIAL_STATE = {
   budgets: [],
-  selected: {
-    _id: ''
-  }
+  selected: {}
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -18,6 +18,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         budgets: action.payload
+      };
+    case ADD_BUDGET:
+      return {
+        ...state,
+        budgets: [...state.budgets, action.payload]
       };
     case SET_SELECTED_BUDGET:
       return {
@@ -30,6 +35,7 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         selected: {
+          _id: action.payload._id,
           data: action.payload
         }
       };
@@ -37,6 +43,10 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         errorMessages: action.payload
+      };
+    case CLEAR_BUDGETS_DATA:
+      return {
+        ...action.payload
       };
     default:
       return state;

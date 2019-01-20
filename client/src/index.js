@@ -10,6 +10,7 @@ import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 import Logout from './components/auth/Logout';
 import Dashboard from './components/Dashboard';
+import NewBudget from './components/budget/NewBudget';
 import Budget from './components/budget/Budget';
 import NotFound from './components/common/NotFound';
 
@@ -26,6 +27,7 @@ ReactDOM.render(
             <Route path="/user/login" render={() => <Login />} />
             <Route path="/user/logout" render={() => <Logout />} />
             <Route path="/dashboard" render={() => <Dashboard />} />
+            <Route path="/budget/create" render={() => <NewBudget />} />
             <Route path="/budget/:id" render={() => <Budget />} />
             <Route component={NotFound} />
           </Switch>

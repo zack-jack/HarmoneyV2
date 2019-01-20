@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { AUTH_USER, AUTH_ERROR, GET_BUDGETS } from './types';
+import { AUTH_USER, AUTH_ERROR, CLEAR_BUDGETS_DATA } from './types';
 
 export const register = (formProps, callback) => async dispatch => {
   try {
@@ -53,20 +53,15 @@ export const login = (formProps, callback) => async dispatch => {
   }
 };
 
-export const logout = () => {
+export const logout = () => dispatch => {
   localStorage.removeItem('token');
 
-  return dispatch => {
-    // Clear auth token state
-    dispatch({
-      type: AUTH_USER,
-      payload: ''
-    });
+  // Clear user data
+  dispatch({ type: AUTH_USER, payload: '' });
 
-    // Clear budgets
-    dispatch({
-      type: GET_BUDGETS,
-      payload: []
-    });
-  };
+  // Clear budgets data
+  dispatch({
+    type: CLEAR_BUDGETS_DATA,
+    payload: { budgets: [], selected: {} }
+  });
 };

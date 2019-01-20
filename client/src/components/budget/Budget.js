@@ -8,11 +8,18 @@ import requireAuth from '../auth/requireAuth';
 class Budget extends Component {
   state = {
     budget: {
-      selected: {}
+      selected: {
+        _id: this.props.budget.selected._id,
+        data: {}
+      }
     }
   };
 
   componentDidMount() {
+    this.getSelectedBudgetData();
+  }
+
+  getSelectedBudgetData = () => {
     const budgetId = this.props.budget.selected._id;
 
     // Fetch selected budget data with API call
@@ -26,15 +33,12 @@ class Budget extends Component {
         }
       }
     });
-  }
+  };
 
   render = () => {
-    // const { name } = this.props.budget.selected.data.name;
-
     return (
       <div>
         <p>Budget page</p>
-        <p>Viewing name Budget</p>
       </div>
     );
   };
@@ -43,7 +47,10 @@ class Budget extends Component {
 const mapStateToProps = state => {
   return {
     budget: {
-      selected: state.budget.selected
+      selected: {
+        _id: state.budget.selected._id,
+        data: state.budget.selected.data
+      }
     }
   };
 };

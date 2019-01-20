@@ -9,10 +9,17 @@ class Dashboard extends Component {
   state = {
     budget: {
       budgets: []
+    },
+    selected: {
+      _id: ''
     }
   };
 
   componentDidMount() {
+    this.getBudgets();
+  }
+
+  getBudgets = () => {
     // Fetch all existing budgets action
     const budgets = this.props.getBudgets();
 
@@ -22,7 +29,7 @@ class Dashboard extends Component {
         budgets
       }
     });
-  }
+  };
 
   setSelectedBudget = e => {
     const eventId = e.target.id;
@@ -37,6 +44,10 @@ class Dashboard extends Component {
     });
 
     this.props.history.push(`../budget/${eventId}`);
+  };
+
+  openCreateNew = () => {
+    this.props.history.push('../budget/create');
   };
 
   renderBudgets = budget => {
@@ -64,7 +75,7 @@ class Dashboard extends Component {
     return (
       <div>
         <div>
-          <button>+ Create New</button>
+          <button onClick={this.openCreateNew}>+ Create New</button>
         </div>
 
         <div>
