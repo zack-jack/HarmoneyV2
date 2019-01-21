@@ -154,7 +154,11 @@ exports.saveBudgetById = (req, res, next) => {
 
 exports.deleteBudgetById = (req, res, next) => {
   const budgetId = req.params.id;
-  const userId = getUserIdFromToken(req);
+  const headers = req.headers;
+  const token = req.headers.authorization;
+
+  // Get user id from request header
+  const userId = getUserIdFromToken(headers, token);
 
   // Ensure user exists and is auth
   checkUserIdExists(userId);

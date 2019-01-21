@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
-import { getBudgets, setSelectedBudget } from '../actions/budget';
+import { getBudgets, setSelectedBudget, deleteBudget } from '../actions/budget';
 import requireAuth from './auth/requireAuth';
 
 class Dashboard extends Component {
@@ -50,15 +50,29 @@ class Dashboard extends Component {
     this.props.history.push('../budget/create');
   };
 
+  deleteBudget = e => {
+    const budgetId = e.target.parentElement.id;
+
+    // Remove the event budget from the database
+    this.props.deleteBudget(budgetId);
+
+    // Update the budgets list
+    this.getBudgets();
+  };
+
   renderBudgets = budget => {
     if (budget.budgets) {
       const budgets = budget.budgets;
 
       return budgets.map(budget => {
         return (
-          <button key={budget._id} onClick={this.setSelectedBudget}>
-            <li id={budget._id}>{budget.name}</li>
-          </button>
+          <div key={budget._id} id={budget._id}>
+            <button onClick={this.setSelectedBudget}>
+              <li id={budget._id}>{budget.name}</li>
+            </button>
+
+            <button onClick={this.deleteBudget}>Delete</button>
+          </div>
         );
       });
     } else {
@@ -100,7 +114,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { getBudgets, setSelectedBudget }
+    { getBudgets, setSelectedBudget, deleteBudget }
   ),
   requireAuth
 )(Dashboard);

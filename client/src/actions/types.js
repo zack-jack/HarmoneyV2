@@ -11,6 +11,7 @@ export const ADD_INCOME = 'add_income';
 export const ADD_EXPENSE = 'add_expense';
 export const DELETE_INCOME = 'delete_income';
 export const DELETE_EXPENSE = 'delete_expense';
+export const DELETE_BUDGET = 'delete_budget';
 export const SAVE_BUDGET = 'save_budget';
 export const BUDGET_ERROR = 'budget_error';
 export const CLEAR_BUDGETS_DATA = 'clear_budgets_data';

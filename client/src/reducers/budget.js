@@ -9,7 +9,8 @@ import {
   DELETE_EXPENSE,
   SAVE_BUDGET,
   BUDGET_ERROR,
-  CLEAR_BUDGETS_DATA
+  CLEAR_BUDGETS_DATA,
+  DELETE_BUDGET
 } from '../actions/types';
 
 const INITIAL_STATE = {
@@ -83,6 +84,10 @@ export default (state = INITIAL_STATE, action) => {
             expenses: action.payload
           }
         }
+      };
+    case DELETE_BUDGET:
+      return {
+        ...state
       };
     case SAVE_BUDGET:
       return {

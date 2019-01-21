@@ -10,6 +10,7 @@ import {
   ADD_EXPENSE,
   DELETE_INCOME,
   DELETE_EXPENSE,
+  DELETE_BUDGET,
   SAVE_BUDGET,
   BUDGET_ERROR
 } from './types';
@@ -26,7 +27,7 @@ export const getBudgets = () => async dispatch => {
     // Dispatch budgets array to redux store
     dispatch({ type: GET_BUDGETS, payload: response.data });
   } catch (err) {
-    const errors = err.response.data.errors;
+    const errors = err;
 
     dispatch({ type: BUDGET_ERROR, payload: errors });
   }
@@ -129,6 +130,22 @@ export const deleteIncome = updatedList => async dispatch => {
 export const deleteExpense = updatedList => async dispatch => {
   try {
     dispatch({ type: DELETE_EXPENSE, payload: updatedList });
+  } catch (err) {
+    const errors = err;
+
+    dispatch({ type: BUDGET_ERROR, payload: errors });
+  }
+};
+
+export const deleteBudget = budgetId => async dispatch => {
+  try {
+    const response = await axios
+      .delete(`/budget/delete/${budgetId}`, authHeaderConfig)
+      .then(res => {
+        return res;
+      });
+
+    dispatch({ type: DELETE_BUDGET, payload: response });
   } catch (err) {
     const errors = err;
 
