@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Totals = () => {
+const Totals = props => {
   return (
     <div>
       <p>Totals</p>

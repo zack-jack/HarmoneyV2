@@ -5,6 +5,7 @@ import {
   ADD_BUDGET,
   SET_SELECTED_BUDGET,
   GET_BUDGET_BY_ID,
+  ADD_INCOME,
   ADD_EXPENSE,
   BUDGET_ERROR
 } from './types';
@@ -84,19 +85,23 @@ export const getBudgetById = budgetId => async dispatch => {
   }
 };
 
-export const addExpense = (formProps, callback) => async dispatch => {
+export const addEntry = (formProps, callback) => async dispatch => {
   try {
-    console.log(formProps);
-    // const response = await axios.post('/user/register', formProps);
+    if (formProps.type === '') {
+      const errors = { message: 'Please provide a valid budget entry type' };
 
-    // // Dispatch auth token to redux store
-    // dispatch({ type: AUTH_USER, payload: response.data.token });
+      dispatch({ type: BUDGET_ERROR, payload: errors });
+    }
 
-    // // Save token to localStorage
-    // localStorage.setItem('token', response.data.token);
+    if (formProps.type === 'income') {
+      dispatch({ type: ADD_INCOME, payload: formProps });
+    }
 
-    // // Call the callback function (ie redirect)
-    // callback();
+    if (formProps.type === 'expense') {
+      dispatch({ type: ADD_EXPENSE, payload: formProps });
+    }
+
+    callback();
   } catch (err) {
     const errors = err.response.data.errors;
 

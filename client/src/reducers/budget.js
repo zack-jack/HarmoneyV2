@@ -3,6 +3,8 @@ import {
   ADD_BUDGET,
   SET_SELECTED_BUDGET,
   GET_BUDGET_BY_ID,
+  ADD_INCOME,
+  ADD_EXPENSE,
   BUDGET_ERROR,
   CLEAR_BUDGETS_DATA
 } from '../actions/types';
@@ -37,6 +39,26 @@ export default (state = INITIAL_STATE, action) => {
         selected: {
           _id: action.payload._id,
           data: action.payload
+        }
+      };
+    case ADD_INCOME:
+      return {
+        ...state,
+        selected: {
+          data: {
+            ...state.selected.data,
+            income: [...state.selected.data.income, action.payload]
+          }
+        }
+      };
+    case ADD_EXPENSE:
+      return {
+        ...state,
+        selected: {
+          data: {
+            ...state.selected.data,
+            expenses: [...state.selected.data.expenses, action.payload]
+          }
         }
       };
     case BUDGET_ERROR:

@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
+import BudgetHeader from './BudgetHeader';
+import EntryForm from './EntryForm';
+import Totals from './Totals';
 import { getBudgetById } from '../../actions/budget';
 import requireAuth from '../auth/requireAuth';
 
@@ -16,7 +19,19 @@ class Budget extends Component {
   };
 
   componentDidMount() {
+    // Fetch the current budget data from DB
     this.getSelectedBudgetData();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const current = this.props.budget.selected.data;
+    const next = nextProps.budget.selected.data;
+    const budgetId = this.props.budget.selected.data._id;
+
+    // If change in redux store, call to save to DB
+    if (current !== next) {
+      this.saveBudget(budgetId);
+    }
   }
 
   getSelectedBudgetData = () => {
@@ -35,10 +50,16 @@ class Budget extends Component {
     });
   };
 
+  saveBudget = budgetId => {
+    console.log(budgetId);
+  };
+
   render = () => {
     return (
       <div>
-        <p>Budget page</p>
+        <BudgetHeader />
+        <Totals />
+        <EntryForm />
       </div>
     );
   };

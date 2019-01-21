@@ -3,11 +3,11 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 
-import { addExpense } from '../../actions/budget';
+import { addEntry } from '../../actions/budget';
 
-class ExpenseForm extends Component {
+class EntryForm extends Component {
   onSubmit = formProps => {
-    this.props.addExpense(formProps, () => {});
+    this.props.addEntry(formProps, () => {});
   };
 
   renderErrors = errors => {
@@ -19,7 +19,7 @@ class ExpenseForm extends Component {
   };
 
   render() {
-    const { handleSubmit } = this.props;
+    const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -30,16 +30,16 @@ class ExpenseForm extends Component {
             type="text"
             component="input"
             autoComplete="none"
+            placeholder="$0.00"
           />
         </fieldset>
 
         <fieldset>
           <label>Expense Type</label>
           <Field name="type" component="select">
-            <select>
-              <option value="income">Income</option>
-              <option value="expense">Expense</option>
-            </select>
+            <option value="">-</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
           </Field>
         </fieldset>
 
@@ -56,7 +56,10 @@ class ExpenseForm extends Component {
 
         <div>{this.renderErrors(this.props.errorMessages)}</div>
 
-        <button>Checkmark Icon</button>
+        <button disabled={submitting}>Checkmark Icon</button>
+        <button disabled={pristine || submitting} onClick={reset}>
+          Reset
+        </button>
       </form>
     );
   }
@@ -65,8 +68,8 @@ class ExpenseForm extends Component {
 const mapStateToProps = state => {
   return {
     budget: {
-      selected: this.state.budget.selected,
-      errorMessages: this.state.budget.errorMessages
+      selected: state.budget.selected,
+      errorMessages: state.budget.errorMessages
     }
   };
 };
@@ -74,7 +77,12 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { addExpense }
+    { addEntry }
   ),
-  reduxForm({ form: 'expenseForm' })
-)(ExpenseForm);
+  reduxForm({
+    form: 'expenseForm',
+    initialValues: {
+      type: ''
+    }
+  })
+)(EntryForm);
