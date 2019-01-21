@@ -34,9 +34,10 @@ class Budget extends Component {
   componentDidUpdate(prevProps) {
     const currentData = this.props.budget.selected.data;
     const prevData = prevProps.budget.selected.data;
-    console.log([currentData, prevData]);
 
+    // Check if state change
     if (currentData && prevData && prevData !== currentData) {
+      // Save new state to db
       this.props.saveBudget(currentData);
     }
   }

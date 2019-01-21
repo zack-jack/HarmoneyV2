@@ -5,9 +5,8 @@ const router = express.Router();
 
 // Token authentication strategy
 const requireAuth = (req, res, next) => {
-  return passport.authenticate('jwt', { session: false }, (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err) {
-      console.log(err, info);
       return next(err, info);
     }
 

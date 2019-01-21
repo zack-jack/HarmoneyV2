@@ -2,16 +2,21 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ExpensesList = props => {
+  const deleteEntry = e => {
+    const id = e.target.parentElement.parentElement.id;
+  };
+
   const renderExpenses = () => {
     const { expenses } = props;
 
     return expenses.map(expense => {
-      const { amount, description } = expense;
+      const { _id, amount, description } = expense;
       return (
-        <li>
+        <li key={_id} id={_id}>
           <div>
             <p>{amount}</p>
             <p>{description}</p>
+            <button onClick={deleteEntry}>Delete</button>
           </div>
         </li>
       );

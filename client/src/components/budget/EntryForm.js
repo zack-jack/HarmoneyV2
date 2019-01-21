@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { reduxForm, Field } from 'redux-form';
+import { reduxForm, Field, reset } from 'redux-form';
 
 import { addEntry } from '../../actions/budget';
 
 class EntryForm extends Component {
   onSubmit = formProps => {
     this.props.addEntry(formProps);
+
+    // Clear form fields
+    this.props.dispatch(reset('expenseForm'));
   };
 
   renderErrors = errors => {

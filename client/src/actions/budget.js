@@ -1,4 +1,5 @@
 import axios from 'axios';
+import uuid from 'uuid';
 
 import {
   GET_BUDGETS,
@@ -49,6 +50,9 @@ export const addBudget = (formProps, callback) => async dispatch => {
 
     // Set selected budget data for the new budget
     dispatch({ type: GET_BUDGET_BY_ID, payload: budgetData });
+
+    // Redirects to newly created budget page
+    callback();
   } catch (err) {
     const errors = err;
 
@@ -78,14 +82,13 @@ export const getBudgetById = budgetId => async dispatch => {
     // Dispatch budget data to redux store
     dispatch({ type: GET_BUDGET_BY_ID, payload: response.data });
   } catch (err) {
-    console.log(err);
     const errors = err;
 
     dispatch({ type: BUDGET_ERROR, payload: errors });
   }
 };
 
-export const addEntry = (formProps, callback) => async dispatch => {
+export const addEntry = formProps => async dispatch => {
   try {
     if (formProps.type === '') {
       const errors = { message: 'Please provide a valid budget entry type' };
@@ -94,19 +97,20 @@ export const addEntry = (formProps, callback) => async dispatch => {
     }
 
     if (formProps.type === 'income') {
-      dispatch({ type: ADD_INCOME, payload: formProps });
+      const id = uuid.v4();
+
+      dispatch({ type: ADD_INCOME, payload: { ...formProps, _id: id } });
     }
 
     if (formProps.type === 'expense') {
-      dispatch({ type: ADD_EXPENSE, payload: formProps });
+      const id = uuid.v4();
+
+      dispatch({ type: ADD_EXPENSE, payload: { ...formProps, _id: id } });
     }
-
-    callback();
   } catch (err) {
-    console.log('add entry err', err);
-    // const errors = err.response.data.errors;
+    const errors = err;
 
-    // dispatch({ type: BUDGET_ERROR, payload: errors });
+    dispatch({ type: BUDGET_ERROR, payload: errors });
   }
 };
 

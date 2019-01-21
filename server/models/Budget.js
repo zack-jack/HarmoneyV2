@@ -12,7 +12,8 @@ const budgetSchema = new Schema({
   name: {
     type: String,
     maxlength: 50,
-    required: true
+    required: true,
+    unique: true
   },
   income: {
     type: Array,

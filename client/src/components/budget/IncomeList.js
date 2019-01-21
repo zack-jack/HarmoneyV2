@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import uuid from 'uuid';
 
 const IncomeList = props => {
   const renderIncome = () => {
@@ -8,10 +9,11 @@ const IncomeList = props => {
     return incomeArr.map(income => {
       const { amount, description } = income;
       return (
-        <li>
+        <li key={uuid.v4()}>
           <div>
             <p>{amount}</p>
             <p>{description}</p>
+            <button>Delete</button>
           </div>
         </li>
       );

@@ -38,9 +38,13 @@ exports.createNewBudget = (req, res, next) => {
       .save()
       .then(budget => {
         // Respond that the user was created
-        res.status(200).json({ success: 'New budget created successfully' });
+        res
+          .status(200)
+          .json({ success: 'New budget created successfully', budget: budget });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        return err;
+      });
   }
 };
 
@@ -73,7 +77,7 @@ exports.getBudgets = (req, res, next) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        return err;
       });
   }
 };
@@ -101,7 +105,7 @@ exports.getBudgetById = (req, res, next) => {
           }
         })
         .catch(err => {
-          console.log(err);
+          return err;
         });
     } else {
       return res.status(404).json({ error: 'Requested budget was not found.' });
@@ -112,9 +116,13 @@ exports.getBudgetById = (req, res, next) => {
 exports.saveBudgetById = (req, res, next) => {
   let errors = [];
   let validData;
-  const { name, income, expenses } = req.body;
   const budgetId = req.params.id;
-  const userId = getUserIdFromToken(req);
+  const headers = req.headers;
+  const token = req.headers.authorization;
+  const { name, income, expenses } = req.body;
+
+  // Get user id from request header
+  const userId = getUserIdFromToken(headers, token);
 
   // Validate data and get errors
   errors = getDataValidationErrors(userId, name, income, expenses);
@@ -137,7 +145,7 @@ exports.saveBudgetById = (req, res, next) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        return err;
       });
   } else {
     return res.status(404).json({ error: 'Requested budget was not found.' });
@@ -160,7 +168,7 @@ exports.deleteBudgetById = (req, res, next) => {
         }
       })
       .catch(err => {
-        console.log(err);
+        return err;
       });
   } else {
     return res.status(404).json({ error: 'Requested budget was not found.' });

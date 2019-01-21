@@ -14,7 +14,6 @@ exports.getUserIdFromToken = (headers, token) => {
 
       return userId;
     } catch (err) {
-      console.log(err);
       return err;
     }
   }
