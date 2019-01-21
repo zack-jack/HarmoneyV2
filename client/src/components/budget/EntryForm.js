@@ -7,7 +7,7 @@ import { addEntry } from '../../actions/budget';
 
 class EntryForm extends Component {
   onSubmit = formProps => {
-    this.props.addEntry(formProps, () => {});
+    this.props.addEntry(formProps);
   };
 
   renderErrors = errors => {

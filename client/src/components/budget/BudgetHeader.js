@@ -2,13 +2,12 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const BudgetHeader = props => {
-  const name = props.data.name;
+  const renderHeading = () => {
+    const name = props.data.name;
+    return <p>Currently viewing {name} budget</p>;
+  };
 
-  return (
-    <div>
-      <p>Currently viewing {name} budget</p>
-    </div>
-  );
+  return <div>{renderHeading()}</div>;
 };
 
 const mapStateToProps = state => {

@@ -9,5 +9,6 @@ export const GET_BUDGET_BY_ID = 'get_budget_by_id';
 export const SET_SELECTED_BUDGET = 'set_selected_budget';
 export const ADD_INCOME = 'add_income';
 export const ADD_EXPENSE = 'add_expense';
+export const SAVE_BUDGET = 'save_budget';
 export const BUDGET_ERROR = 'budget_error';
 export const CLEAR_BUDGETS_DATA = 'clear_budgets_data';

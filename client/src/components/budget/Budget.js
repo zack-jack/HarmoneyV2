@@ -5,15 +5,23 @@ import { connect } from 'react-redux';
 import BudgetHeader from './BudgetHeader';
 import EntryForm from './EntryForm';
 import Totals from './Totals';
-import { getBudgetById } from '../../actions/budget';
+import { getBudgetById, saveBudget } from '../../actions/budget';
 import requireAuth from '../auth/requireAuth';
+import IncomeList from './IncomeList';
+import ExpensesList from './ExpensesList';
 
 class Budget extends Component {
   state = {
     budget: {
       selected: {
         _id: this.props.budget.selected._id,
-        data: {}
+        data: {
+          _id: '',
+          owner: '',
+          name: '',
+          income: [],
+          expenses: []
+        }
       }
     }
   };
@@ -23,14 +31,13 @@ class Budget extends Component {
     this.getSelectedBudgetData();
   }
 
-  componentWillReceiveProps(nextProps) {
-    const current = this.props.budget.selected.data;
-    const next = nextProps.budget.selected.data;
-    const budgetId = this.props.budget.selected.data._id;
+  componentDidUpdate(prevProps) {
+    const currentData = this.props.budget.selected.data;
+    const prevData = prevProps.budget.selected.data;
+    console.log([currentData, prevData]);
 
-    // If change in redux store, call to save to DB
-    if (current !== next) {
-      this.saveBudget(budgetId);
+    if (currentData && prevData && prevData !== currentData) {
+      this.props.saveBudget(currentData);
     }
   }
 
@@ -50,18 +57,20 @@ class Budget extends Component {
     });
   };
 
-  saveBudget = budgetId => {
-    console.log(budgetId);
-  };
-
   render = () => {
-    return (
-      <div>
-        <BudgetHeader />
-        <Totals />
-        <EntryForm />
-      </div>
-    );
+    if (this.props.budget.selected.data) {
+      return (
+        <div>
+          <BudgetHeader />
+          <Totals />
+          <EntryForm />
+          <IncomeList />
+          <ExpensesList />
+        </div>
+      );
+    } else {
+      return null;
+    }
   };
 }
 
@@ -79,7 +88,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { getBudgetById }
+    { getBudgetById, saveBudget }
   ),
   requireAuth
 )(Budget);

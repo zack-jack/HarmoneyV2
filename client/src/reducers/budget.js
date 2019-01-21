@@ -5,6 +5,7 @@ import {
   GET_BUDGET_BY_ID,
   ADD_INCOME,
   ADD_EXPENSE,
+  SAVE_BUDGET,
   BUDGET_ERROR,
   CLEAR_BUDGETS_DATA
 } from '../actions/types';
@@ -60,6 +61,10 @@ export default (state = INITIAL_STATE, action) => {
             expenses: [...state.selected.data.expenses, action.payload]
           }
         }
+      };
+    case SAVE_BUDGET:
+      return {
+        ...state
       };
     case BUDGET_ERROR:
       return {

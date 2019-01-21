@@ -7,6 +7,7 @@ import {
   GET_BUDGET_BY_ID,
   ADD_INCOME,
   ADD_EXPENSE,
+  SAVE_BUDGET,
   BUDGET_ERROR
 } from './types';
 import authHeaderConfig from './utils/authHeaderConfig';
@@ -48,8 +49,6 @@ export const addBudget = (formProps, callback) => async dispatch => {
 
     // Set selected budget data for the new budget
     dispatch({ type: GET_BUDGET_BY_ID, payload: budgetData });
-
-    callback(budgetId);
   } catch (err) {
     const errors = err;
 
@@ -79,7 +78,8 @@ export const getBudgetById = budgetId => async dispatch => {
     // Dispatch budget data to redux store
     dispatch({ type: GET_BUDGET_BY_ID, payload: response.data });
   } catch (err) {
-    const errors = err.response.data.errors;
+    console.log(err);
+    const errors = err;
 
     dispatch({ type: BUDGET_ERROR, payload: errors });
   }
@@ -103,7 +103,26 @@ export const addEntry = (formProps, callback) => async dispatch => {
 
     callback();
   } catch (err) {
-    const errors = err.response.data.errors;
+    console.log('add entry err', err);
+    // const errors = err.response.data.errors;
+
+    // dispatch({ type: BUDGET_ERROR, payload: errors });
+  }
+};
+
+export const saveBudget = data => async dispatch => {
+  try {
+    const budgetId = data._id;
+
+    const response = await axios
+      .put(`/budget/save/${budgetId}`, data, authHeaderConfig)
+      .then(res => {
+        return res;
+      });
+
+    dispatch({ type: SAVE_BUDGET, payload: response.data });
+  } catch (err) {
+    const errors = err;
 
     dispatch({ type: BUDGET_ERROR, payload: errors });
   }
