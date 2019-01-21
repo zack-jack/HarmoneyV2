@@ -1,19 +1,33 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
-import uuid from 'uuid';
+
+import { deleteIncome } from '../../actions/budget';
 
 const IncomeList = props => {
+  const deleteEntry = e => {
+    const id = e.target.parentElement.parentElement.id;
+
+    // Return list of entries minus the clicked id
+    const newEntriesList = props.income.filter(item => {
+      return item._id !== id;
+    });
+
+    // Pass list of remaining entries to delete action
+    props.deleteIncome(newEntriesList);
+  };
+
   const renderIncome = () => {
     const incomeArr = props.income;
 
     return incomeArr.map(income => {
-      const { amount, description } = income;
+      const { _id, amount, description } = income;
       return (
-        <li key={uuid.v4()}>
+        <li key={_id} id={_id}>
           <div>
             <p>{amount}</p>
             <p>{description}</p>
-            <button>Delete</button>
+            <button onClick={deleteEntry}>Delete</button>
           </div>
         </li>
       );
@@ -35,4 +49,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(IncomeList);
+export default compose(
+  connect(
+    mapStateToProps,
+    { deleteIncome }
+  )
+)(IncomeList);

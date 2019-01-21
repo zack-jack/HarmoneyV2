@@ -5,6 +5,8 @@ import {
   GET_BUDGET_BY_ID,
   ADD_INCOME,
   ADD_EXPENSE,
+  DELETE_INCOME,
+  DELETE_EXPENSE,
   SAVE_BUDGET,
   BUDGET_ERROR,
   CLEAR_BUDGETS_DATA
@@ -59,6 +61,26 @@ export default (state = INITIAL_STATE, action) => {
           data: {
             ...state.selected.data,
             expenses: [...state.selected.data.expenses, action.payload]
+          }
+        }
+      };
+    case DELETE_INCOME:
+      return {
+        ...state,
+        selected: {
+          data: {
+            ...state.selected.data,
+            income: action.payload
+          }
+        }
+      };
+    case DELETE_EXPENSE:
+      return {
+        ...state,
+        selected: {
+          data: {
+            ...state.selected.data,
+            expenses: action.payload
           }
         }
       };

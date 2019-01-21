@@ -8,6 +8,8 @@ import {
   GET_BUDGET_BY_ID,
   ADD_INCOME,
   ADD_EXPENSE,
+  DELETE_INCOME,
+  DELETE_EXPENSE,
   SAVE_BUDGET,
   BUDGET_ERROR
 } from './types';
@@ -107,6 +109,26 @@ export const addEntry = formProps => async dispatch => {
 
       dispatch({ type: ADD_EXPENSE, payload: { ...formProps, _id: id } });
     }
+  } catch (err) {
+    const errors = err;
+
+    dispatch({ type: BUDGET_ERROR, payload: errors });
+  }
+};
+
+export const deleteIncome = updatedList => async dispatch => {
+  try {
+    dispatch({ type: DELETE_INCOME, payload: updatedList });
+  } catch (err) {
+    const errors = err;
+
+    dispatch({ type: BUDGET_ERROR, payload: errors });
+  }
+};
+
+export const deleteExpense = updatedList => async dispatch => {
+  try {
+    dispatch({ type: DELETE_EXPENSE, payload: updatedList });
   } catch (err) {
     const errors = err;
 

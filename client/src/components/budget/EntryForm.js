@@ -38,7 +38,7 @@ class EntryForm extends Component {
         </fieldset>
 
         <fieldset>
-          <label>Expense Type</label>
+          <label>Entry Type</label>
           <Field name="type" component="select">
             <option value="">-</option>
             <option value="income">Income</option>

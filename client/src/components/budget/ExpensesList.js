@@ -1,9 +1,20 @@
 import React from 'react';
+import { compose } from 'redux';
 import { connect } from 'react-redux';
+
+import { deleteExpense } from '../../actions/budget';
 
 const ExpensesList = props => {
   const deleteEntry = e => {
     const id = e.target.parentElement.parentElement.id;
+
+    // Return list of entries minus the clicked id
+    const newEntriesList = props.expenses.filter(item => {
+      return item._id !== id;
+    });
+
+    // Pass list of remaining entries to delete action
+    props.deleteExpense(newEntriesList);
   };
 
   const renderExpenses = () => {
@@ -38,4 +49,9 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(ExpensesList);
+export default compose(
+  connect(
+    mapStateToProps,
+    { deleteExpense }
+  )
+)(ExpensesList);
