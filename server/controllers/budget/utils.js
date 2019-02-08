@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const keys = require('../../config/keys');
+require('dotenv').config();
 
 // Decode the auth token to get the user id
 exports.getUserIdFromToken = (headers, token) => {
@@ -9,7 +9,7 @@ exports.getUserIdFromToken = (headers, token) => {
     const auth = token;
 
     try {
-      decoded = jwt.verify(auth, keys.tokenSecret);
+      decoded = jwt.verify(auth, process.env.TOKEN_SECRET);
       const userId = decoded.sub;
 
       return userId;

@@ -4,7 +4,8 @@ const LocalStrategy = require('passport-local').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const User = require('../models/User');
-const keys = require('./keys');
+
+require('dotenv').config();
 
 // Create local strategy
 const localOptions = { usernameField: 'email' };
@@ -40,7 +41,7 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
 // Set up options for JWT strategy
 const jwtOptions = {
   jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-  secretOrKey: keys.tokenSecret
+  secretOrKey: process.env.TOKEN_SECRET
 };
 
 // Create JWT strategy for login

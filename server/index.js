@@ -3,19 +3,16 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
-const keys = require('./config/keys');
+require('dotenv').config();
 
 // App setup
 const app = express();
 
 // Database setup
-const db = keys.MongoURI;
+const db = process.env.MONGO_URI;
 
 mongoose
-  .connect(
-    db,
-    { useNewUrlParser: true }
-  )
+  .connect(db, { useNewUrlParser: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
@@ -25,9 +22,18 @@ app.use(bodyParser.json());
 app.use(morgan('combined'));
 
 // Routes
-app.use('/', require('./routes/index'));
+app.use('/dashboard', require('./routes/index'));
 app.use('/user', require('./routes/user'));
 app.use('/budget', require('./routes/budget'));
+
+if (process.env.NODE_ENV === 'production') {
+  // Serve static files from the React frontend app build folder
+  app.use(express.static('client/build'));
+
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + 'client/build/index.html'));
+  });
+}
 
 // Server setup
 const port = process.env.PORT || 5000;
