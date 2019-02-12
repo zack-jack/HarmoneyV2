@@ -1,0 +1,18 @@
+.button {
+  background: map-get($colors, white);
+  border: 1px solid map-get($colors, primary);
+  border-radius: 1rem;
+  color: map-get($colors, primary-dark);
+  cursor: pointer;
+  font-family: map-get($font, family-main);
+  font-size: 1.4rem;
+  outline: none;
+  padding: 1rem 4rem;
+  text-align: center;
+
+  &:hover {
+    background: map-get($colors, primary-trans);
+    color: map-get($colors, white);
+    font-weight: 700;
+  }
+}

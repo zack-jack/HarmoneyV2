@@ -4,6 +4,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
 
+import 'semantic-ui-css/semantic.min.css';
+import './styles/styles.scss';
+
 import App from './components/App';
 import Welcome from './components/Welcome';
 import Register from './components/auth/Register';

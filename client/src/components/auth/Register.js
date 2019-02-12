@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
+import { Form } from 'semantic-ui-react';
 
 import { register } from '../../actions/auth';
 
@@ -25,41 +26,46 @@ class Register extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label>Email</label>
+      <Form onSubmit={handleSubmit(this.onSubmit)} className="register">
+        <div className="form__field-group">
+          <label className="form__field-label">Email</label>
           <Field
             name="email"
             type="text"
             component="input"
             autoComplete="none"
+            className="form__field"
           />
-        </fieldset>
+        </div>
 
-        <fieldset>
-          <label>Password</label>
+        <div className="form__field-group">
+          <label className="form__field-label">Password</label>
           <Field
             name="password"
             type="password"
             component="input"
             autoComplete="none"
+            className="form__field"
           />
-        </fieldset>
+        </div>
 
-        <fieldset>
-          <label>Confirm Password</label>
+        <div className="form__field-group">
+          <label className="form__field-label">Confirm Password</label>
           <Field
             name="passwordConfirm"
             type="password"
             component="input"
             autoComplete="none"
+            className="form__field"
           />
-        </fieldset>
+        </div>
 
-        <div>{this.renderErrors(this.props.errorMessages)}</div>
+        <div className="register__error">
+          {this.renderErrors(this.props.errorMessages)}
+        </div>
 
-        <button>Register</button>
-      </form>
+        <button className="register__button button">Register</button>
+      </Form>
     );
   }
 }

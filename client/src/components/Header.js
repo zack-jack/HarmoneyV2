@@ -1,23 +1,32 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Image } from 'semantic-ui-react';
 
-import '../styles/header.css';
+import logo from '../images/harmoney-logo.svg';
 
 class Header extends Component {
   renderNavLinks = () => {
     if (this.props.authenticated) {
       return (
-        <div>
-          <Link to="/dashboard">Dashboard</Link>
-          <Link to="/user/logout">Logout</Link>
+        <div className="header__links">
+          <Link to="/dashboard" className="header__link">
+            Dashboard
+          </Link>
+          <Link to="/user/logout" className="header__link">
+            Logout
+          </Link>
         </div>
       );
     } else {
       return (
-        <div>
-          <Link to="/user/register">Register</Link>
-          <Link to="/user/login">Login</Link>
+        <div className="header__links">
+          <Link to="/user/register" className="header__link">
+            Register
+          </Link>
+          <Link to="/user/login" className="header__link">
+            Login
+          </Link>
         </div>
       );
     }
@@ -26,7 +35,12 @@ class Header extends Component {
   render() {
     return (
       <div className="header">
-        <Link to="/">Harmoney</Link>
+        <Link to="/">
+          <div className="header__logo">
+            <Image src={logo} className="header__logo-image" />
+            <span className="header__logo-text">Harmoney</span>
+          </div>
+        </Link>
         {this.renderNavLinks()}
       </div>
     );

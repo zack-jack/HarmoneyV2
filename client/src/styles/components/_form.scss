@@ -1,0 +1,14 @@
+.form {
+  &__field-group {
+    margin-bottom: 1rem;
+  }
+
+  &__field-label {
+    font-size: 1.4rem;
+  }
+
+  &__field {
+    color: map-get($colors, dark-grey) !important;
+    font-size: 1.4rem !important;
+  }
+}

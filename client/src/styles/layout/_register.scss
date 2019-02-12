@@ -1,0 +1,25 @@
+.register {
+  &__error {
+    color: map-get($colors, error);
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding-left: 0.5rem;
+  }
+
+  &__button {
+    margin: 1rem 0;
+  }
+
+  &__login {
+    display: flex;
+  }
+
+  &__login-link {
+    color: map-get($colors, primary);
+    margin-left: 1rem;
+
+    &:hover {
+      color: map-get($colors, primary-dark);
+    }
+  }
+}

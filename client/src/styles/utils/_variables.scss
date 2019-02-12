@@ -1,0 +1,25 @@
+// Colors
+$colors: (
+  primary: #02afe9,
+  primary-light: #99dff6,
+  primary-dark: #017aa3,
+  primary-trans: rgba(#02afe9, 0.7),
+  secondary: #6bfbbe,
+  white: #fff,
+  trans-white: rgba(255, 255, 255, 0.9),
+  light-grey: #f5f8fa,
+  dark-grey: #555b69,
+  error: #ff3f34
+);
+
+// Typography
+$font: (
+  family-main: #{'Open Sans',
+  Helvetica,
+  Arial,
+  sans-serif},
+  family-heading: #{'Comfortaa',
+  Helvetica,
+  Arial,
+  sans-serif}
+);

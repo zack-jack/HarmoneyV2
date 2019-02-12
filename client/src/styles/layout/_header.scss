@@ -1,0 +1,43 @@
+.header {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 80%;
+  padding: 2rem 0;
+
+  &__logo {
+    align-items: center;
+    display: flex;
+  }
+
+  &__logo-image {
+    height: 5rem;
+    margin-right: 2rem;
+    width: 5rem;
+  }
+
+  &__logo-text {
+    color: map-get($colors, dark-grey);
+    font-family: map-get($font, family-heading);
+    font-size: 3rem;
+  }
+
+  &__links {
+  }
+
+  &__link {
+    margin-right: 1rem;
+    padding: 1rem 3rem;
+
+    &:hover {
+      background: map-get($colors, light-grey);
+      border-radius: 1rem;
+      color: map-get($colors, dark-grey);
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
+}
