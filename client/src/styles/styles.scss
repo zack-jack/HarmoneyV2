@@ -10,9 +10,13 @@
 ========================================== */
 @import './components/button';
 @import './components/form';
+@import './components/login';
+@import './components/page';
+@import './components/register';
 
 /* LAYOUT STYLES
 ========================================== */
 @import './layout/header';
-@import './layout/register';
+@import './layout/login-page';
+@import './layout/registration-page';
 @import './layout/welcome';

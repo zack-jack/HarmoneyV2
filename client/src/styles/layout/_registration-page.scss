@@ -1,0 +1,7 @@
+.register {
+  background: linear-gradient(
+    to top right,
+    map-get($colors, primary),
+    map-get($colors, secondary)
+  );
+}

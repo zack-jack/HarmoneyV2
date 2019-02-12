@@ -26,7 +26,7 @@ class Register extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <Form onSubmit={handleSubmit(this.onSubmit)} className="register">
+      <Form onSubmit={handleSubmit(this.onSubmit)}>
         <div className="form__field-group">
           <label className="form__field-label">Email</label>
           <Field

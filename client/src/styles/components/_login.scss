@@ -1,0 +1,28 @@
+.login {
+  &__container {
+    background: map-get($colors, trans-white);
+    background-image: url('../images/curve.svg');
+    background-repeat: no-repeat;
+    border-radius: 1rem;
+    margin: 0 auto;
+    min-height: 40rem;
+    max-width: 80%;
+    padding: 4rem;
+  }
+
+  &__heading {
+    font-family: map-get($font, family-heading);
+    margin-bottom: 2rem;
+  }
+
+  &__error {
+    color: map-get($colors, error);
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding-left: 0.5rem;
+  }
+
+  &__button {
+    margin: 1rem 0;
+  }
+}

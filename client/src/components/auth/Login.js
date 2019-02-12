@@ -3,6 +3,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
+import { Form } from 'semantic-ui-react';
 
 import { login } from '../../actions/auth';
 
@@ -25,31 +26,35 @@ class Login extends Component {
     const { handleSubmit } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label>Email</label>
+      <Form onSubmit={handleSubmit(this.onSubmit)}>
+        <div className="form__field-group">
+          <label className="form__field-label">Email</label>
           <Field
             name="email"
             type="text"
             component="input"
             autoComplete="none"
+            className="form__field"
           />
-        </fieldset>
+        </div>
 
-        <fieldset>
-          <label>Password</label>
+        <div className="form__field-group">
+          <label className="form__field-label">Password</label>
           <Field
             name="password"
             type="password"
             component="input"
             autoComplete="none"
+            className="form__field"
           />
-        </fieldset>
+        </div>
 
-        <div>{this.renderErrors(this.props.errorMessages)}</div>
+        <div className="login__error">
+          {this.renderErrors(this.props.errorMessages)}
+        </div>
 
-        <button>Login</button>
-      </form>
+        <button className="login__button button">Login</button>
+      </Form>
     );
   }
 }

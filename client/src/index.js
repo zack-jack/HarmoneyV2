@@ -9,8 +9,8 @@ import './styles/styles.scss';
 
 import App from './components/App';
 import Welcome from './components/Welcome';
-import Register from './components/auth/Register';
-import Login from './components/auth/Login';
+import RegistrationPage from './components/auth/RegistrationPage';
+import LoginPage from './components/auth/LoginPage';
 import Logout from './components/auth/Logout';
 import Dashboard from './components/Dashboard';
 import NewBudget from './components/budget/NewBudget';
@@ -26,8 +26,8 @@ ReactDOM.render(
         <App>
           <Switch>
             <Route path="/" exact component={Welcome} />
-            <Route path="/user/register" render={() => <Register />} />
-            <Route path="/user/login" render={() => <Login />} />
+            <Route path="/user/register" render={() => <RegistrationPage />} />
+            <Route path="/user/login" render={() => <LoginPage />} />
             <Route path="/user/logout" render={() => <Logout />} />
             <Route path="/dashboard" render={() => <Dashboard />} />
             <Route path="/budget/create" render={() => <NewBudget />} />
