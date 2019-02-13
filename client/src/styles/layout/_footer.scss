@@ -1,0 +1,10 @@
+.footer {
+  bottom: 0;
+  color: map-get($colors, white);
+  display: flex;
+  font-size: 1.4rem;
+  margin: 0 auto;
+  margin-top: -10rem;
+  max-width: 70%;
+  padding: 4rem 0;
+}

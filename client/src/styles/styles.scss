@@ -9,6 +9,7 @@
 /* COMPONENT STYLES
 ========================================== */
 @import './components/button';
+@import './components/divider';
 @import './components/form';
 @import './components/login';
 @import './components/page';
@@ -16,7 +17,9 @@
 
 /* LAYOUT STYLES
 ========================================== */
+@import './layout/dashboard';
 @import './layout/header';
+@import './layout/footer';
 @import './layout/login-page';
 @import './layout/registration-page';
 @import './layout/welcome';

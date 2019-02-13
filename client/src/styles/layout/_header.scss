@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  max-width: 80%;
+  max-width: 70%;
   padding: 2rem 0;
 
   &__logo {
@@ -23,15 +23,13 @@
     font-size: 3rem;
   }
 
-  &__links {
-  }
-
   &__link {
+    color: map-get($colors, primary);
     margin-right: 1rem;
     padding: 1rem 3rem;
 
     &:hover {
-      background: map-get($colors, light-grey);
+      background: map-get($colors, light-blue);
       border-radius: 1rem;
       color: map-get($colors, dark-grey);
     }

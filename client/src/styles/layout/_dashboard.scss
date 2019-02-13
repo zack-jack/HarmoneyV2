@@ -1,0 +1,53 @@
+.dashboard {
+  background: linear-gradient(
+    180deg,
+    map-get($colors, white),
+    map-get($colors, light-blue),
+    map-get($colors, blue)
+  );
+
+  &__container {
+    align-items: center;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    max-width: 70%;
+  }
+
+  &__budgets-heading {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4rem;
+    width: 50%;
+  }
+
+  &__budgets-header {
+    font-family: map-get($font, family-heading);
+    font-size: 2.5rem;
+    margin-bottom: 0;
+    margin-right: 10rem;
+  }
+
+  &__budgets-list {
+    color: map-get($colors, dark-grey);
+    font-family: map-get($font, family-main);
+    max-width: 50%;
+  }
+
+  &__budget-name {
+    cursor: pointer;
+    margin-left: 1rem;
+  }
+
+  &__budget-edit {
+    color: map-get($colors, blue);
+    cursor: pointer;
+  }
+
+  &__budget-delete {
+    color: map-get($colors, error);
+    cursor: pointer;
+  }
+}

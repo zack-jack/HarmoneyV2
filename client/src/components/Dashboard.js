@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Table, Icon } from 'semantic-ui-react';
 
 import { getBudgets, setSelectedBudget, deleteBudget } from '../actions/budget';
 import requireAuth from './auth/requireAuth';
@@ -8,7 +9,7 @@ import requireAuth from './auth/requireAuth';
 class Dashboard extends Component {
   state = {
     budget: {
-      budgets: []
+      budgets: this.props.budget.budgets
     },
     selected: {
       _id: ''
@@ -17,6 +18,12 @@ class Dashboard extends Component {
 
   componentDidMount() {
     this.getBudgets();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.budget.budgets !== nextProps.budget.budgets) {
+      this.setState({ budget: nextProps.budget });
+    }
   }
 
   getBudgets = () => {
@@ -54,10 +61,10 @@ class Dashboard extends Component {
     const budgetId = e.target.parentElement.id;
 
     // Remove the event budget from the database
-    this.props.deleteBudget(budgetId);
-
-    // Update the budgets list
-    this.getBudgets();
+    this.props.deleteBudget(budgetId).then(() => {
+      // Update the budgets list
+      this.getBudgets();
+    });
   };
 
   renderBudgets = budget => {
@@ -66,13 +73,32 @@ class Dashboard extends Component {
 
       return budgets.map(budget => {
         return (
-          <div key={budget._id} id={budget._id}>
-            <button onClick={this.setSelectedBudget}>
-              <li id={budget._id}>{budget.name}</li>
-            </button>
+          <Table.Row verticalAlign="middle" key={budget._id} id={budget._id}>
+            <Table.Cell
+              onClick={this.setSelectedBudget}
+              verticalAlign="middle"
+              className="dashboard__budget"
+            >
+              <Icon
+                name="edit outline"
+                size="large"
+                className="dashboard__budget-edit"
+              />
+              <span className="dashboard__budget-name">{budget.name}</span>
+            </Table.Cell>
 
-            <button onClick={this.deleteBudget}>Delete</button>
-          </div>
+            <Table.Cell
+              textAlign="center"
+              width={1}
+              onClick={this.deleteBudget}
+            >
+              <Icon
+                name="delete"
+                size="large"
+                className="dashboard__budget-delete"
+              />
+            </Table.Cell>
+          </Table.Row>
         );
       });
     } else {
@@ -87,13 +113,28 @@ class Dashboard extends Component {
 
   render() {
     return (
-      <div>
-        <div>
-          <button onClick={this.openCreateNew}>+ Create New</button>
-        </div>
+      <div className="dashboard page">
+        <div className="dashboard__container">
+          <div className="dashboard__budgets-heading">
+            <h2 className="dashboard__budgets-header">Budgets List</h2>
 
-        <div>
-          <ul>{this.renderBudgets(this.props.budget)}</ul>
+            <button
+              onClick={this.openCreateNew}
+              className="button button__create-new"
+            >
+              + Create New
+            </button>
+          </div>
+
+          <Table columns={2} className="dashboard__budgets-list">
+            <Table.Header>
+              <Table.Row>
+                <Table.HeaderCell>Budget Name</Table.HeaderCell>
+                <Table.HeaderCell textAlign="center">Delete</Table.HeaderCell>
+              </Table.Row>
+            </Table.Header>
+            {this.renderBudgets(this.props.budget)}
+          </Table>
         </div>
       </div>
     );

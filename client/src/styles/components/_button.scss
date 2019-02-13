@@ -13,6 +13,15 @@
   &:hover {
     background: map-get($colors, primary-trans);
     color: map-get($colors, white);
-    font-weight: 700;
+  }
+
+  &__create-new {
+    background: map-get($colors, primary);
+    color: map-get($colors, white);
+
+    &:hover {
+      background: map-get($colors, white-trans);
+      border: 1px solid map-get($colors, primary-trans);
+    }
   }
 }
