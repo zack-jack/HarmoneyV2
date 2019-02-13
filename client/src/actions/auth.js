@@ -17,7 +17,9 @@ export const register = (formProps, callback) => async dispatch => {
   } catch (err) {
     const errors = err.response.data.errors;
 
-    dispatch({ type: AUTH_ERROR, payload: errors });
+    if (errors.length > 0) {
+      dispatch({ type: AUTH_ERROR, payload: errors });
+    }
   }
 };
 
@@ -41,6 +43,9 @@ export const login = (formProps, callback) => async dispatch => {
 
       // Dispatch auth token to redux store
       dispatch({ type: AUTH_USER, payload: token });
+
+      // Reset the auth errors to empty array
+      dispatch({ type: AUTH_ERROR, payload: [] });
 
       // Save token to localStorage
       localStorage.setItem('token', token);

@@ -8,6 +8,12 @@ import { Form } from 'semantic-ui-react';
 import { login } from '../../actions/auth';
 
 class Login extends Component {
+  componentDidMount() {
+    // Reset redux form
+    this.props.untouch('email', 'password');
+    this.props.reset();
+  }
+
   onSubmit = formProps => {
     this.props.login(formProps, () => {
       this.props.history.push('/dashboard');
@@ -15,7 +21,7 @@ class Login extends Component {
   };
 
   renderErrors = errors => {
-    if (errors) {
+    if (this.props.anyTouched && errors) {
       return errors.map((error, i) => {
         return <p key={i}>{error.message}</p>;
       });

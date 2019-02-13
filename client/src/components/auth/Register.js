@@ -8,6 +8,12 @@ import { Form } from 'semantic-ui-react';
 import { register } from '../../actions/auth';
 
 class Register extends Component {
+  componentDidMount() {
+    // Reset redux form
+    this.props.untouch('email', 'password');
+    this.props.reset();
+  }
+
   onSubmit = formProps => {
     this.props.register(formProps, () => {
       this.props.history.push('/dashboard');
@@ -15,7 +21,7 @@ class Register extends Component {
   };
 
   renderErrors = errors => {
-    if (errors) {
+    if (this.props.anyTouched && errors) {
       return errors.map((error, i) => {
         return <p key={i}>{error.message}</p>;
       });
