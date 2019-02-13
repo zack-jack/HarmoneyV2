@@ -6,8 +6,11 @@
     padding-top: 6rem;
   }
 
+  @include phone {
+    min-height: calc(100vh - 11.9rem);
+  }
+
   @include phone-small {
-    min-height: 100vh;
     padding: 4rem 0 10rem 0;
   }
 }

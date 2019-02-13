@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
-
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 
 // Decode the auth token to get the user id
 exports.getUserIdFromToken = (headers, token) => {

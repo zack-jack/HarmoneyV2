@@ -1,11 +1,11 @@
+require('dotenv').config();
+
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const User = require('../models/User');
-
-require('dotenv').config({ silent: process.env.NODE_ENV === 'production' });
 
 // Create local strategy
 const localOptions = { usernameField: 'email' };

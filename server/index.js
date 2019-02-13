@@ -1,5 +1,5 @@
 const express = require('express');
-require('dotenv').config({ silent: process.env.NODE_ENV === 'production' });
+require('dotenv').config();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
