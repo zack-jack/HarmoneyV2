@@ -1,9 +1,10 @@
 .dashboard {
   background: linear-gradient(
     180deg,
-    map-get($colors, white),
+    map-get($colors, white) 40%,
     map-get($colors, light-blue),
-    map-get($colors, blue)
+    map-get($colors, primary-trans-light),
+    map-get($colors, secondary-trans-light)
   );
 
   &__container {

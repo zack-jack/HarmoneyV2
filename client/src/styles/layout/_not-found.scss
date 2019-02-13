@@ -1,0 +1,14 @@
+.not-found {
+  text-align: center;
+
+  &__heading {
+    font-family: map-get($font, family-heading);
+    font-size: 8rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+
+  &__text {
+    font-size: 1.8rem;
+  }
+}

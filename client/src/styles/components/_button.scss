@@ -16,12 +16,13 @@
   }
 
   &__create-new {
-    background: map-get($colors, primary);
+    background: map-get($colors, primary-trans);
     color: map-get($colors, white);
 
     &:hover {
-      background: map-get($colors, white-trans);
+      background: map-get($colors, white);
       border: 1px solid map-get($colors, primary-trans);
+      color: map-get($colors, primary-dark);
     }
   }
 }

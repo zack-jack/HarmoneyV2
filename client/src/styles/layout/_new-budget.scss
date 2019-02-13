@@ -1,0 +1,39 @@
+.new-budget {
+  background: linear-gradient(
+    180deg,
+    map-get($colors, white) 40%,
+    map-get($colors, light-blue),
+    map-get($colors, primary-trans-light),
+    map-get($colors, secondary-trans-light)
+  );
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    height: 30vh;
+    justify-content: center;
+    margin: 0 auto;
+    max-width: 35%;
+  }
+
+  &__heading {
+    font-family: map-get($font, family-heading);
+    margin-bottom: 4rem;
+  }
+
+  &__field {
+    display: flex;
+  }
+
+  &__button {
+    background: map-get($colors, white);
+    border: none;
+    margin-left: 1rem;
+    outline: none;
+  }
+
+  &__check {
+    color: map-get($colors, secondary);
+    cursor: pointer;
+  }
+}

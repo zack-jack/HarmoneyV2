@@ -2,9 +2,12 @@
 $colors: (
   primary: #02afe9,
   primary-light: #99dff6,
-  primary-dark: #017aa3,
+  primary-dark: darken(#02afe9, 10),
   primary-trans: rgba(#02afe9, 0.7),
+  primary-trans-light: rgba(#02afe9, 0.2),
   secondary: #6bfbbe,
+  secondary-trans: rgba(#6bfbbe, 0.7),
+  secondary-trans-light: rgba(#6bfbbe, 0.5),
   white: #fff,
   trans-white: rgba(255, 255, 255, 0.9),
   light-blue: #f5f8fa,
