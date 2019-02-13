@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { Table, Icon } from 'semantic-ui-react';
+import { Dimmer, Loader, Table, Icon } from 'semantic-ui-react';
 
 import { getBudgets, setSelectedBudget, deleteBudget } from '../actions/budget';
 import requireAuth from './auth/requireAuth';
@@ -13,7 +13,8 @@ class Dashboard extends Component {
     },
     selected: {
       _id: ''
-    }
+    },
+    isLoading: false
   };
 
   componentDidMount() {
@@ -27,15 +28,15 @@ class Dashboard extends Component {
   }
 
   getBudgets = () => {
+    this.setState({ isLoading: true });
+
     // Fetch all existing budgets action
-    const budgets = this.props.getBudgets();
+    this.props.getBudgets();
 
     // Update component state with budgets from API call
-    this.setState({
-      budget: {
-        budgets
-      }
-    });
+    setTimeout(() => {
+      this.setState({ budget: this.props.budget, isLoading: false });
+    }, 500);
   };
 
   setSelectedBudget = e => {
@@ -112,7 +113,11 @@ class Dashboard extends Component {
   };
 
   render() {
-    return (
+    return this.state.isLoading ? (
+      <Dimmer active inverted>
+        <Loader inverted size="massive" />
+      </Dimmer>
+    ) : (
       <div className="dashboard page">
         <div className="dashboard__container">
           <div className="dashboard__budgets-heading">
@@ -133,7 +138,7 @@ class Dashboard extends Component {
                 <Table.HeaderCell textAlign="center">Delete</Table.HeaderCell>
               </Table.Row>
             </Table.Header>
-            {this.renderBudgets(this.props.budget)}
+            <Table.Body>{this.renderBudgets(this.props.budget)}</Table.Body>
           </Table>
         </div>
       </div>

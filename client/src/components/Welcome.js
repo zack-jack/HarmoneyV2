@@ -20,7 +20,6 @@ class Welcome extends Component {
         <div className="welcome__container">
           <Grid>
             <Grid.Column
-              centered
               computer={8}
               textAlign="center"
               className="welcome__intro"
