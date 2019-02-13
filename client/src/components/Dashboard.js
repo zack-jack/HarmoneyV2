@@ -44,7 +44,16 @@ class Dashboard extends Component {
   };
 
   setSelectedBudget = e => {
-    const eventId = e.target.parentNode.id;
+    let eventId;
+
+    if (e.target.id) {
+      eventId = e.target.id;
+    }
+
+    if (e.target.parentNode.id) {
+      eventId = e.target.parentNode.id;
+    }
+
     const selectedBudgetId = this.props.setSelectedBudget(eventId);
 
     this.setState({
@@ -82,6 +91,7 @@ class Dashboard extends Component {
             <Table.Cell
               id={budget._id}
               onClick={this.setSelectedBudget}
+              tablet={3}
               verticalAlign="middle"
               className="dashboard__budget"
             >
@@ -137,11 +147,13 @@ class Dashboard extends Component {
             </button>
           </div>
 
-          <Table columns={2} className="dashboard__budgets-list">
+          <Table singleLine unstackable className="dashboard__budgets-list">
             <Table.Header>
               <Table.Row>
-                <Table.HeaderCell>Budget Name</Table.HeaderCell>
-                <Table.HeaderCell textAlign="center">Delete</Table.HeaderCell>
+                <Table.HeaderCell tablet={3}>Budget Name</Table.HeaderCell>
+                <Table.HeaderCell textAlign="center" width={2}>
+                  Delete
+                </Table.HeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>{this.renderBudgets(this.props.budget)}</Table.Body>

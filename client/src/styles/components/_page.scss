@@ -2,8 +2,8 @@
   min-height: calc(100vh - 9rem);
   padding-top: 8rem;
 
-  @include tablet {
-    padding-top: 6rem;
+  @include tablet-large {
+    padding: 6rem 0;
   }
 
   @include phone {
