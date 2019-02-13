@@ -1,4 +1,13 @@
 .page {
   min-height: calc(100vh - 9rem);
   padding-top: 8rem;
+
+  @include tablet {
+    padding-top: 6rem;
+  }
+
+  @include phone-small {
+    min-height: 100vh;
+    padding: 4rem 0 10rem 0;
+  }
 }

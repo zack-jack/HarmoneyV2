@@ -5,13 +5,16 @@ import { reduxForm, Field } from 'redux-form';
 import { withRouter } from 'react-router-dom';
 import { Form } from 'semantic-ui-react';
 
-import { login } from '../../actions/auth';
+import { login, resetAuthFormErrors } from '../../actions/auth';
 
 class Login extends Component {
   componentDidMount() {
     // Reset redux form
     this.props.untouch('email', 'password');
     this.props.reset();
+
+    // Reset errors
+    this.props.resetAuthFormErrors();
   }
 
   onSubmit = formProps => {
@@ -74,7 +77,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { login }
+    { login, resetAuthFormErrors }
   ),
   reduxForm({ form: 'login' }),
   withRouter

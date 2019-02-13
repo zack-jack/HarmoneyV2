@@ -20,6 +20,7 @@ class Welcome extends Component {
         <div className="welcome__container">
           <Grid>
             <Grid.Column
+              tablet={16}
               computer={8}
               textAlign="center"
               className="welcome__intro"
@@ -30,13 +31,28 @@ class Welcome extends Component {
                 finance app.
               </p>
               <div className="welcome__images">
-                <Image centered size="tiny" src={piggyBank} />
-                <Image centered size="tiny" src={moneyBag} />
-                <Image centered size="tiny" src={thumbsUp} />
+                <Image
+                  centered
+                  size="tiny"
+                  src={piggyBank}
+                  className="welcome__image"
+                />
+                <Image
+                  centered
+                  size="tiny"
+                  src={moneyBag}
+                  className="welcome__image"
+                />
+                <Image
+                  centered
+                  size="tiny"
+                  src={thumbsUp}
+                  className="welcome__image"
+                />
               </div>
             </Grid.Column>
 
-            <Grid.Column computer={8}>
+            <Grid.Column tablet={16} computer={8}>
               {this.props.auth.authenticated ? null : (
                 <div className="welcome__register">
                   <h2 className="welcome__register-heading">

@@ -35,12 +35,16 @@ class Dashboard extends Component {
 
     // Update component state with budgets from API call
     setTimeout(() => {
-      this.setState({ budget: this.props.budget, isLoading: false });
+      this.setState({ budget: this.props.budget });
+    }, 300);
+
+    setTimeout(() => {
+      this.setState({ isLoading: false });
     }, 500);
   };
 
   setSelectedBudget = e => {
-    const eventId = e.target.id;
+    const eventId = e.target.parentNode.id;
     const selectedBudgetId = this.props.setSelectedBudget(eventId);
 
     this.setState({
@@ -59,7 +63,7 @@ class Dashboard extends Component {
   };
 
   deleteBudget = e => {
-    const budgetId = e.target.parentElement.id;
+    const budgetId = e.target.id;
 
     // Remove the event budget from the database
     this.props.deleteBudget(budgetId).then(() => {
@@ -74,8 +78,9 @@ class Dashboard extends Component {
 
       return budgets.map(budget => {
         return (
-          <Table.Row verticalAlign="middle" key={budget._id} id={budget._id}>
+          <Table.Row verticalAlign="middle" key={budget._id}>
             <Table.Cell
+              id={budget._id}
               onClick={this.setSelectedBudget}
               verticalAlign="middle"
               className="dashboard__budget"
@@ -94,6 +99,7 @@ class Dashboard extends Component {
               onClick={this.deleteBudget}
             >
               <Icon
+                id={budget._id}
                 name="delete"
                 size="large"
                 className="dashboard__budget-delete"

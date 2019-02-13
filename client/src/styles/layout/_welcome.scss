@@ -11,9 +11,24 @@
     background-repeat: no-repeat;
     border-radius: 1rem;
     margin: 0 auto;
-    min-height: 40rem;
+    min-height: 42rem;
     max-width: 70%;
-    padding: 4rem;
+    padding: 8rem;
+
+    @include desktop {
+      max-width: 80%;
+    }
+
+    @include tablet {
+      border-radius: 0;
+      max-width: 100%;
+      padding: 4rem;
+    }
+
+    @include phone {
+      min-height: 100%;
+      padding: 2rem 2rem 4rem 2rem;
+    }
   }
 
   &__curve {
@@ -26,8 +41,22 @@
     font-family: map-get($font, family-heading);
   }
 
+  &__heading {
+    @include phone {
+      visibility: hidden;
+    }
+  }
+
   &__register-heading {
     margin-bottom: 2rem;
+
+    @include laptop {
+      line-height: 2;
+    }
+
+    @include tablet-large {
+      text-align: center;
+    }
   }
 
   &__heading-text {
@@ -35,12 +64,20 @@
     margin: 0 auto;
     max-width: 80%;
     text-align: center;
+
+    @include tablet-large {
+      margin-bottom: 2rem;
+    }
   }
 
   &__intro {
     display: flex !important;
     flex-direction: column;
     justify-content: space-around;
+
+    @include tablet-large {
+      margin-bottom: 2rem;
+    }
   }
 
   &__images {
@@ -48,9 +85,31 @@
     display: flex;
     justify-content: space-around;
     padding: 0 4rem;
+
+    @include phone-small {
+      flex-direction: column;
+    }
+  }
+
+  &__image {
+    @include phone-small {
+      margin-bottom: 2rem;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
   }
 
   &__register {
-    padding-left: 6rem;
+    padding: 0 6rem;
+
+    @include desktop {
+      padding: 0 4rem;
+    }
+
+    @include laptop {
+      padding: 0 2rem;
+    }
   }
 }

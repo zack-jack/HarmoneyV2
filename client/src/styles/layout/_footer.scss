@@ -7,4 +7,8 @@
   margin-top: -10rem;
   max-width: 70%;
   padding: 4rem 0;
+
+  @include desktop {
+    max-width: 80%;
+  }
 }

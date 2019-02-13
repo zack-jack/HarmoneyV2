@@ -70,3 +70,7 @@ export const logout = () => dispatch => {
     payload: { budgets: [], selected: {} }
   });
 };
+
+export const resetAuthFormErrors = () => dispatch => {
+  dispatch({ type: AUTH_ERROR, payload: [] });
+};
