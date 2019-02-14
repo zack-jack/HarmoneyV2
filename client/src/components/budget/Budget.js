@@ -34,6 +34,16 @@ class Budget extends Component {
     this.getSelectedBudgetData();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      budget: {
+        selected: {
+          data: nextProps.budget.selected.data
+        }
+      }
+    });
+  }
+
   getSelectedBudgetData = () => {
     this.setState({ isLoading: true });
 
@@ -42,11 +52,11 @@ class Budget extends Component {
     // Fetch selected budget data with API call
     this.props.getBudgetById(budgetId).then(() => {
       this.updateBudgetState();
-
-      setTimeout(() => {
-        this.setState({ isLoading: false });
-      }, 500);
     });
+
+    setTimeout(() => {
+      this.setState({ isLoading: false });
+    }, 500);
   };
 
   updateBudgetState = () => {
@@ -69,8 +79,9 @@ class Budget extends Component {
     ) : (
       <div className="budget page">
         <BudgetHeader name={this.state.budget.selected.data.name} />
-        <Totals data={this.props.budget.selected.data} />
+        <Totals data={this.state.budget.selected.data} />
         <EntryForm />
+
         <div className="budget__divider">
           <Divider />
         </div>

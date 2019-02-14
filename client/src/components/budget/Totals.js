@@ -3,13 +3,27 @@ import React, { Component } from 'react';
 class Totals extends Component {
   state = {
     incomeTotal: parseFloat(0).toFixed(2),
-    expensesTotal: parseFloat(0).toFixed(2)
+    incomeLength: this.props.data.income.length,
+    expensesTotal: parseFloat(0).toFixed(2),
+    expensesLength: this.props.data.expenses.length
   };
 
   componentDidMount() {
-    console.log(this.props.data);
-    // this.getTotals(this.props.data.income);
-    // this.getTotals(this.props.data.expenses);
+    this.getTotals(this.props.data.income);
+    this.getTotals(this.props.data.expenses);
+  }
+
+  componentDidUpdate(prevProps) {
+    console.log(prevProps.data.income);
+    if (prevProps.data.income.length !== this.state.incomeLength) {
+      this.getTotals(prevProps.data.income);
+
+      this.setState({ incomeLength: prevProps.data.income.length });
+    }
+
+    // if (prevProps.data.expenses.length !== this.state.expensesLength) {
+    //   this.getTotals(this.props.data.expenses);
+    // }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -37,6 +51,16 @@ class Totals extends Component {
 
       if (items.id === 'expenses' || items[0].type === 'expense') {
         this.setState({ expensesTotal: total });
+      }
+    }
+
+    if (items.length === 0) {
+      if (this.props.data.income.length === 0) {
+        this.setState({ incomeTotal: parseFloat(0).toFixed(2) });
+      }
+
+      if (this.props.data.expenses.length === 0) {
+        this.setState({ expensesTotal: parseFloat(0).toFixed(2) });
       }
     }
   };

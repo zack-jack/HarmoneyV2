@@ -72,16 +72,18 @@ class EntryForm extends Component {
           />
         </div>
 
-        <button disabled={submitting} className="budget__button">
-          <Icon name="check circle" size="big" className="budget__check" />
-        </button>
-        <button
-          disabled={pristine || submitting}
-          onClick={reset}
-          className="budget__button"
-        >
-          <Icon name="redo" size="big" className="budget__reset" />
-        </button>
+        <div className="budget__form-button-group">
+          <button disabled={submitting} className="budget__button">
+            <Icon name="check circle" size="big" className="budget__check" />
+          </button>
+          <button
+            disabled={pristine || submitting}
+            onClick={reset}
+            className="budget__button"
+          >
+            <Icon name="redo" size="big" className="budget__reset" />
+          </button>
+        </div>
 
         <div>{this.renderErrors(this.props.errorMessages)}</div>
       </Form>

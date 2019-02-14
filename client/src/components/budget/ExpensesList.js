@@ -15,9 +15,9 @@ const ExpensesList = props => {
     });
 
     // Pass list of remaining entries to delete action
-    props.deleteExpense(newEntriesList).then(() => {
-      props.updateBudgetState();
-    });
+    props.deleteExpense(newEntriesList);
+
+    props.updateBudgetState();
   };
 
   const renderExpenses = () => {

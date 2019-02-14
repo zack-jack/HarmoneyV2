@@ -26,6 +26,10 @@
 
   &__totals-box {
     display: flex;
+
+    @include phone {
+      flex-direction: column;
+    }
   }
 
   &__totals-wrapper {
@@ -44,10 +48,19 @@
   &__totals-income {
     background: map-get($colors, secondary-trans);
     margin-right: 1rem;
+
+    @include phone {
+      margin-bottom: 1rem;
+      margin-right: 0;
+    }
   }
 
   &__totals-expenses {
     background: map-get($colors, primary-trans);
+
+    @include phone {
+      margin-bottom: 1rem;
+    }
   }
 
   &__totals-income-header,
@@ -62,8 +75,14 @@
   }
 
   &__form {
+    align-items: center;
     display: flex;
     margin: 2rem 0;
+
+    @include phone {
+      align-items: unset;
+      flex-direction: column;
+    }
   }
 
   &__button {
@@ -89,6 +108,18 @@
 
   &__divider {
     width: 50%;
+
+    @include laptop {
+      width: 65%;
+    }
+
+    @include tablet-large {
+      width: 80%;
+    }
+
+    @include tablet {
+      width: 85%;
+    }
   }
 
   &__lists-container {
@@ -98,5 +129,27 @@
     margin-bottom: 15rem;
     padding: 4rem;
     width: 35%;
+
+    @include laptop {
+      width: 50%;
+    }
+
+    @include tablet-large {
+      width: 65%;
+    }
+
+    @include tablet {
+      padding: 2rem;
+      width: 75%;
+    }
+
+    @include phone {
+      width: 85%;
+    }
+
+    @include phone-small {
+      border-radius: 0;
+      width: 100%;
+    }
   }
 }
