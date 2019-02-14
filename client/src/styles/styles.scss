@@ -18,8 +18,11 @@
 
 /* LAYOUT STYLES
 ========================================== */
+@import './layout/budget';
 @import './layout/dashboard';
+@import './layout/expenses';
 @import './layout/header';
+@import './layout/income';
 @import './layout/footer';
 @import './layout/login-page';
 @import './layout/new-budget';

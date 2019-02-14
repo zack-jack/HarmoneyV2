@@ -1,5 +1,7 @@
 .form {
   &__field-group {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 1rem;
   }
 
@@ -10,5 +12,9 @@
   &__field {
     color: map-get($colors, dark-grey) !important;
     font-size: 1.4rem !important;
+
+    &--select {
+      padding: 0.95rem 1.4rem !important;
+    }
   }
 }

@@ -14,6 +14,7 @@ class Welcome extends Component {
       this.props.history.push('/dashboard');
     }
   }
+
   render() {
     return (
       <div className="welcome page">

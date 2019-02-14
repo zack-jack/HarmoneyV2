@@ -2,15 +2,22 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { reduxForm, Field, reset } from 'redux-form';
+import { Form, Icon } from 'semantic-ui-react';
 
-import { addEntry } from '../../actions/budget';
+import { addEntry, saveBudget } from '../../actions/budget';
 
 class EntryForm extends Component {
   onSubmit = formProps => {
-    this.props.addEntry(formProps);
+    this.props.addEntry(formProps).then(() => {
+      // Clear form fields
+      this.props.dispatch(reset('expenseForm'));
 
-    // Clear form fields
-    this.props.dispatch(reset('expenseForm'));
+      this.saveBudgetData(this.props.budget.selected.data);
+    });
+  };
+
+  saveBudgetData = data => {
+    this.props.saveBudget(data);
   };
 
   renderErrors = errors => {
@@ -25,45 +32,59 @@ class EntryForm extends Component {
     const { handleSubmit, pristine, reset, submitting } = this.props;
 
     return (
-      <form onSubmit={handleSubmit(this.onSubmit)}>
-        <fieldset>
-          <label>Amount</label>
+      <Form onSubmit={handleSubmit(this.onSubmit)} className="budget__form">
+        <div className="form__field-group">
+          <label className="form__field-label">Amount</label>
           <Field
             name="amount"
             type="text"
             component="input"
             autoComplete="none"
             placeholder="$0.00"
+            className="form__field"
+            style={{ width: '13rem' }}
           />
-        </fieldset>
+        </div>
 
-        <fieldset>
-          <label>Entry Type</label>
-          <Field name="type" component="select">
+        <div className="form__field-group">
+          <label className="form__field-label">Entry Type</label>
+          <Field
+            name="type"
+            component="select"
+            className="form__field form__field--select"
+          >
             <option value="">-</option>
             <option value="income">Income</option>
             <option value="expense">Expense</option>
           </Field>
-        </fieldset>
+        </div>
 
-        <fieldset>
-          <label>Description</label>
+        <div className="form__field-group">
+          <label className="form__field-label">Description</label>
           <Field
             name="description"
             type="text"
             component="input"
             autoComplete="none"
             placeholder="Add description..."
+            className="form__field"
+            style={{ width: '25rem' }}
           />
-        </fieldset>
+        </div>
+
+        <button disabled={submitting} className="budget__button">
+          <Icon name="check circle" size="big" className="budget__check" />
+        </button>
+        <button
+          disabled={pristine || submitting}
+          onClick={reset}
+          className="budget__button"
+        >
+          <Icon name="redo" size="big" className="budget__reset" />
+        </button>
 
         <div>{this.renderErrors(this.props.errorMessages)}</div>
-
-        <button disabled={submitting}>Checkmark Icon</button>
-        <button disabled={pristine || submitting} onClick={reset}>
-          Reset
-        </button>
-      </form>
+      </Form>
     );
   }
 }
@@ -80,7 +101,7 @@ const mapStateToProps = state => {
 export default compose(
   connect(
     mapStateToProps,
-    { addEntry }
+    { addEntry, saveBudget }
   ),
   reduxForm({
     form: 'expenseForm',

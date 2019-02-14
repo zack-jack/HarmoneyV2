@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Dimmer, Loader } from 'semantic-ui-react';
 
 import BudgetHeader from './BudgetHeader';
+import Divider from '../common/Divider';
 import EntryForm from './EntryForm';
 import Totals from './Totals';
 import { getBudgetById, saveBudget } from '../../actions/budget';
@@ -23,7 +25,8 @@ class Budget extends Component {
           expenses: []
         }
       }
-    }
+    },
+    isLoading: false
   };
 
   componentDidMount() {
@@ -31,47 +34,58 @@ class Budget extends Component {
     this.getSelectedBudgetData();
   }
 
-  componentDidUpdate(prevProps) {
-    const currentData = this.props.budget.selected.data;
-    const prevData = prevProps.budget.selected.data;
-
-    // Check if state change
-    if (currentData && prevData && prevData !== currentData) {
-      // Save new state to db
-      this.props.saveBudget(currentData);
-    }
-  }
-
   getSelectedBudgetData = () => {
+    this.setState({ isLoading: true });
+
     const budgetId = this.props.budget.selected._id;
 
     // Fetch selected budget data with API call
-    const selectedBudgetData = this.props.getBudgetById(budgetId);
+    this.props.getBudgetById(budgetId).then(() => {
+      this.updateBudgetState();
 
-    // Update component state with the selected budget's data from API call
+      setTimeout(() => {
+        this.setState({ isLoading: false });
+      }, 500);
+    });
+  };
+
+  updateBudgetState = () => {
+    this.props.saveBudget(this.props.budget.selected.data);
+
     this.setState({
       budget: {
         selected: {
-          data: selectedBudgetData
+          data: this.props.budget.selected.data
         }
       }
     });
   };
 
   render = () => {
-    if (this.props.budget.selected.data) {
-      return (
-        <div>
-          <BudgetHeader />
-          <Totals />
-          <EntryForm />
-          <IncomeList />
-          <ExpensesList />
+    return this.state.isLoading ? (
+      <Dimmer active inverted>
+        <Loader inverted size="massive" />
+      </Dimmer>
+    ) : (
+      <div className="budget page">
+        <BudgetHeader name={this.state.budget.selected.data.name} />
+        <Totals data={this.props.budget.selected.data} />
+        <EntryForm />
+        <div className="budget__divider">
+          <Divider />
         </div>
-      );
-    } else {
-      return null;
-    }
+        <div className="budget__lists-container">
+          <IncomeList
+            income={this.state.budget.selected.data.income}
+            updateBudgetState={this.updateBudgetState}
+          />
+          <ExpensesList
+            expenses={this.state.budget.selected.data.expenses}
+            updateBudgetState={this.updateBudgetState}
+          />
+        </div>
+      </div>
+    );
   };
 }
 

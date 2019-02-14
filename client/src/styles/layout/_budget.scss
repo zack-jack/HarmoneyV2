@@ -1,0 +1,102 @@
+.budget {
+  background: linear-gradient(
+    180deg,
+    map-get($colors, white) 40%,
+    map-get($colors, light-blue),
+    map-get($colors, primary-trans-light),
+    map-get($colors, secondary-trans-light)
+  );
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
+
+  &__heading {
+    font-family: map-get($font, font-main);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  &__totals-heading {
+    font-family: map-get($font, family-heading);
+    font-size: 2.4rem;
+    text-align: center;
+  }
+
+  &__totals-box {
+    display: flex;
+  }
+
+  &__totals-wrapper {
+    align-items: center;
+    background: map-get($colors, trans-light-white);
+    display: flex;
+    padding: 1rem 6rem;
+  }
+
+  &__totals-income,
+  &__totals-expenses {
+    padding: 0.2rem;
+    text-align: center;
+  }
+
+  &__totals-income {
+    background: map-get($colors, secondary-trans);
+    margin-right: 1rem;
+  }
+
+  &__totals-expenses {
+    background: map-get($colors, primary-trans);
+  }
+
+  &__totals-income-header,
+  &__totals-expenses-header {
+    margin-bottom: 0;
+    margin-right: 2rem;
+  }
+
+  &__totals-income-amount,
+  &__totals-expenses-amount {
+    margin: 0;
+  }
+
+  &__form {
+    display: flex;
+    margin: 2rem 0;
+  }
+
+  &__button {
+    background: map-get($colors, white);
+    border: none;
+    margin-left: 1rem;
+    margin-top: 1rem;
+    outline: none;
+  }
+
+  &__check,
+  &__reset {
+    cursor: pointer;
+  }
+
+  &__check {
+    color: map-get($colors, secondary);
+  }
+
+  &__reset {
+    color: map-get($colors, dark-grey);
+  }
+
+  &__divider {
+    width: 50%;
+  }
+
+  &__lists-container {
+    background: map-get($colors, trans-white);
+    border-radius: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 15rem;
+    padding: 4rem;
+    width: 35%;
+  }
+}

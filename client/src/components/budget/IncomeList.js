@@ -1,12 +1,13 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import { Table, Icon } from 'semantic-ui-react';
 
 import { deleteIncome } from '../../actions/budget';
 
 const IncomeList = props => {
   const deleteEntry = e => {
-    const id = e.target.parentElement.parentElement.id;
+    const id = e.target.id;
 
     // Return list of entries minus the clicked id
     const newEntriesList = props.income.filter(item => {
@@ -15,6 +16,8 @@ const IncomeList = props => {
 
     // Pass list of remaining entries to delete action
     props.deleteIncome(newEntriesList);
+
+    props.updateBudgetState();
   };
 
   const renderIncome = () => {
@@ -23,22 +26,35 @@ const IncomeList = props => {
     return incomeArr.map(income => {
       const { _id, amount, description } = income;
       return (
-        <li key={_id} id={_id}>
-          <div>
-            <p>{amount}</p>
-            <p>{description}</p>
-            <button onClick={deleteEntry}>Delete</button>
-          </div>
-        </li>
+        <Table.Row columns={3} key={_id} id={_id}>
+          <Table.Cell width={4}>$ {parseFloat(amount).toFixed(2)}</Table.Cell>
+          <Table.Cell width={6}>{description}</Table.Cell>
+          <Table.Cell textAlign="center" width={2}>
+            <Icon
+              id={_id}
+              name="delete"
+              size="large"
+              className="income__delete"
+              onClick={deleteEntry}
+            />
+          </Table.Cell>
+        </Table.Row>
       );
     });
   };
 
   return (
-    <div>
-      {props.income.length > 0 ? <p>Income</p> : <p>{''}</p>}
-
-      <ul>{renderIncome()}</ul>
+    <div className="income">
+      {props.income && props.income.length > 0 ? (
+        <>
+          <h4 className="income__heading">Income</h4>
+          <div className="income__table">
+            <Table basic="very" singleLine striped unstackable>
+              <Table.Body>{renderIncome()}</Table.Body>
+            </Table>
+          </div>
+        </>
+      ) : null}
     </div>
   );
 };
