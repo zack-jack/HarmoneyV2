@@ -142,8 +142,6 @@ exports.saveBudgetById = (req, res, next) => {
       .then(doc => {
         if (doc) {
           res.status(200).json({ success: 'Saved successfully' });
-
-          Budget.findOne({ _id: doc._id }).then(doc => console.log(doc));
         }
       })
       .catch(err => {

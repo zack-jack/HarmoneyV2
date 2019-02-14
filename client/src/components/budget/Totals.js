@@ -14,16 +14,17 @@ class Totals extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    console.log(prevProps.data.income);
     if (prevProps.data.income.length !== this.state.incomeLength) {
       this.getTotals(prevProps.data.income);
 
       this.setState({ incomeLength: prevProps.data.income.length });
     }
 
-    // if (prevProps.data.expenses.length !== this.state.expensesLength) {
-    //   this.getTotals(this.props.data.expenses);
-    // }
+    if (prevProps.data.expenses.length !== this.state.expensesLength) {
+      this.getTotals(prevProps.data.expenses);
+
+      this.setState({ expensesLength: prevProps.data.expenses.length });
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -33,13 +34,16 @@ class Totals extends Component {
 
   getTotals = items => {
     let total;
+    const amounts = items.map(item => parseFloat(item.amount));
 
-    if (items && items.length === 1) {
-      total = parseFloat(items[0].amount).toFixed(2);
-    } else if (items && items.length > 1) {
-      total = items.reduce((a, b) => {
-        return (parseFloat(a.amount) + parseFloat(b.amount)).toFixed(2);
+    if (amounts && amounts.length === 1) {
+      total = parseFloat(amounts[0]).toFixed(2);
+    } else if (amounts && amounts.length > 1) {
+      total = amounts.reduce((a, b) => {
+        return a + b;
       });
+
+      total = parseFloat(total).toFixed(2);
     } else {
       total = parseFloat(0).toFixed(2);
     }
